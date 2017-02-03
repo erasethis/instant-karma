@@ -43,5 +43,5 @@ When `karma` comes up and starts executing your tests, you should be able to see
 
 ## Screenshot
 
-![Screenshot](https://github.com/erasethis/instant-karma/blob/gh-pages/screenshot.png)
+![Screenshot](https://github.com/erasethis/instant-karma/blob/master/src/assets/img/screenshot.png)
 
