@@ -27,7 +27,7 @@ describe('progress reducer', () => {
          it('should set its "busy" property to "false"', () => {
          expect(progress(undefined, {
                 type: KARMA_ACTIONS.KARMA_RUN_COMPLETE,
-                payload: { }
+             payload: { }
             }).get('busy')).toBeFalse();
         });
     });

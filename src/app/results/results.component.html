@@ -4,8 +4,7 @@
         <a *ngFor="let suite of level.suites" 
             class="ink-result"
             [routerLink]="['/results', suite.id]"
-            [ngClass]="{ 'ink-success': suite.success, 'ink-selected': suite.selected }"
-            [style.width]="getWidth(suite.index)">
+            [ngClass]="{ 'ink-success': suite.success, 'ink-selected': suite.selected }">
             <span><md-icon svgIcon="layers"></md-icon></span><span>{{suite.name}}</span>
         </a>
         <a *ngFor="let result of level.results" 
