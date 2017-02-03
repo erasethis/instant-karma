@@ -12,9 +12,6 @@ import { ISuite } from './suite.model';
     styleUrls: ['./results.component.scss']
 })
 export class ResultsComponent implements OnInit {
-    public suites: Observable<any[]>;
-    public results: Observable<any[]>;
-
     public model: Observable<ISuite[]>;
 
     @select(['data', 'session'])
@@ -34,35 +31,33 @@ export class ResultsComponent implements OnInit {
     private getModel(c: { id: string, session: ISessionState }): ISuite[] {
         let model = [];
         let id = c.id;
-        let suites = c.session.get('suites').toJS();
-        let results = c.session.get('results').toJS();
+        let session = c.session.toJS();
         let selectedId = null;
-        let index = 1;
         while (true) {
-            model.unshift(this.getLevel(suites, results, id, selectedId, index++));
+            model.unshift(this.getSuite(session, id, selectedId));
 
             if (id === null) {
                 break;
             }
 
             selectedId = id;
-            id = this.getParentId(id, suites);
+            id = this.getParentId(id, session.suites);
         }
 
         return model;
     }
 
-    private getLevel(suites: any, results: any, id: string, selectedId: string, index: number) {
-        let level = { suites: [], results: [], index };
+    private getSuite(session: any, id: string, selectedId: string): ISuite {
+        let suite: ISuite = { suites: [], results: [] };
 
-        if (suites) {
-            level.suites = this.filterById(suites, id, selectedId);
+        if (session.suites) {
+            suite.suites = this.filterById(session.suites, id, selectedId);
         }
 
-        if (results) {
-            level.results = this.filterById(results, id, null);
+        if (session.results) {
+            suite.results = this.filterById(session.results, id, null);
         }
-        return level;
+        return suite;
     }
 
     private getParentId(id: string, suites: any) {

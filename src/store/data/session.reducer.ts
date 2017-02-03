@@ -6,6 +6,7 @@ import { KARMA_ACTIONS } from '../../services/karma.actions';
 import { testResult, ITestResultState, TEST_RESULT_INIT_STATE } from './test-result.reducer';
 
 export interface ISessionState {
+    toJS: () => any;
     updateIn: (keyPath: string[], updater: (value: any) => any) => ISessionState;
     get(key: 'browser'): string;
     get(key: 'results'): Immutable.List<ITestResultState>;
