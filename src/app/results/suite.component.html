@@ -1,0 +1,12 @@
+<a *ngFor="let item of suite.suites" 
+    class="ink-item"
+    [routerLink]="['/results', item.id]"
+    [ngClass]="{ 'ink-success': item.success, 'ink-selected': item.selected }">
+    <span><md-icon svgIcon="layers"></md-icon></span><span>{{item.name}}</span>
+</a>
+<a *ngFor="let item of suite.results" 
+    class="ink-item"
+    [routerLink]="['/results', item.id]"
+    [ngClass]="{ 'ink-success': item.success }">
+    <span><md-icon svgIcon="colorize"></md-icon></span><span>{{item.description}}</span>
+</a>

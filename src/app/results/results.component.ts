@@ -12,7 +12,7 @@ import { ISuite } from './suite.model';
     styleUrls: ['./results.component.scss']
 })
 export class ResultsComponent implements OnInit {
-    public model: Observable<ISuite[]>;
+    public suites: Observable<ISuite[]>;
 
     @select(['data', 'session'])
     private session: Observable<ISessionState>;
@@ -23,7 +23,7 @@ export class ResultsComponent implements OnInit {
         let suiteId: Observable<string> = this.route.params
             .map((params) => params['id'] ? params['id'] : null);
 
-        this.model = Observable.combineLatest(this.session, suiteId,
+        this.suites = Observable.combineLatest(this.session, suiteId,
             (session, id) => ({ session, id })).map((c) =>
                 this.getModel(c));
     }

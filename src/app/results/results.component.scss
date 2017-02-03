@@ -5,7 +5,7 @@
     height: 100%;
 }
 
-.ink-panel {
+.ink-suite {
     box-shadow: -4px 0 4px -2px rgba(0, 0, 0, 0.4);
     background: #e8e8e8;
     width: 100%;
@@ -16,42 +16,5 @@
     
     &::-webkit-scrollbar {
         width: 0;
-    }
-}
-
-.ink-result {
-    display: block;
-    width: 100%;
-    padding: 8px 12px;
-    /*box-shadow: 0 4px 4px -2px rgba(0, 0, 0, 0.2);*/
-    font-family: "Segoe UI", Helvetica, sans-serif;
-    text-decoration: none;
-    color: white;
-    line-height: 32px;
-    box-sizing: border-box;
-    background: rgb(144, 0, 0);
-    /* background: linear-gradient(to right, red , white); */
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-
-    &.ink-selected {
-        background: rgb(192, 0, 0);
-    }
-
-    &.ink-success {
-        background: rgb(0, 144, 0);
-        /* background: linear-gradient(to right, green , white); */
-    }
-
-    &.ink-success.ink-selected {
-        background: rgb(0, 192, 0);
-    }
-
-    md-icon {
-        width: 32px;
-        height: 32px;
-        vertical-align: middle;
-        margin-right: 12px;
     }
 }
