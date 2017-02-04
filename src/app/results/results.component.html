@@ -1,6 +1,11 @@
 <div class="ink-layout">
-    <ink-suite *ngFor="let suite of suites | async" 
+    <ink-suite *ngFor="let suite of (model | async).suites" 
         class="ink-suite"
-        [suite]="suite">
+        [suite]="suite"
+        [style.width]="suite.width">
     </ink-suite>
+    <ink-result *ngIf="(model | async).result"
+        class="ink-result"
+        [result]="(model | async).result">
+    </ink-result>
 </div>

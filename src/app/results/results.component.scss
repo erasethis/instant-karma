@@ -5,16 +5,18 @@
     height: 100%;
 }
 
-.ink-suite {
+.ink-suite, .ink-result {
     box-shadow: -4px 0 4px -2px rgba(0, 0, 0, 0.4);
-    background: #e8e8e8;
-    width: 100%;
     flex-shrink: 1;
     flex-grow: 1;
     overflow-y: auto;
-    transition: width 0.3s linear;
+    transition: all 0.3s linear;
     
     &::-webkit-scrollbar {
         width: 0;
     }
+}
+
+ink-result {
+    width: 60%;
 }

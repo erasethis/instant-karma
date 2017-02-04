@@ -18,7 +18,7 @@ export class KarmaReporter {
     public start() {
         this.eventSource.on('message', (message) => {
             let data = JSON.parse(message.data);
-            //console.log('data = ', data)
+            // console.log('data = ', data)
             switch (data.type) {
                 case 'browser-start':
                     this.ngRedux.dispatch({
@@ -29,12 +29,13 @@ export class KarmaReporter {
                     });
                     break;
                 case 'spec-complete':
-                //console.log(data)
+                // console.log(data)
                     this.ngRedux.dispatch({
                         type: KARMA_ACTIONS.KARMA_SPEC_COMPLETE,
                         payload: {
                             browser: data.browser,
-                            result: data.result
+                            result: data.result,
+                            log: data.log
                         }
                     });
                     break;

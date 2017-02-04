@@ -11,5 +11,5 @@ export class SuiteComponent {
     @Input()
     public suite: ISuite;
 
-
+    public width: string = '100%';
 };

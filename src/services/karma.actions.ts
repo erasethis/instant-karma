@@ -16,6 +16,7 @@ export interface IKarmaSpecResult {
     skipped: boolean;
     success: boolean;
     suite: string[];
+    log: string[];
 };
 
 export interface IKarmaSpec {

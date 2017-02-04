@@ -6,13 +6,22 @@ import { KARMA_ACTIONS } from '../../services/karma.actions';
 
 export interface ITestResultState {
     withMutations(mutator: (mutable: ITestResultState) => ITestResultState): ITestResultState;
+    get(key: 'id'): string;
     get(key: 'description'): string;
+    get(key: 'success'): boolean;
+    get(key: 'log'): Immutable.List<string>;
+    set(key: 'id', id: string);
     set(key: 'description', browsers: string);
+    set(key: 'success', success: boolean);
+    set(key: 'log', log: Immutable.List<string>);
 };
 
 export const TEST_RESULT_INIT_STATE: ITestResultState = Immutable.fromJS({
+    id: undefined,
     description: undefined,
-    suite: undefined
+    suite: undefined,
+    success: false,
+    log: []
 });
 
 const VOID: Action<any> = {
@@ -27,10 +36,12 @@ export const testResult: Reducer<ITestResultState> =
         // case KARMA_ACTIONS.KARMA_BROWSER_START:
         // case KARMA_ACTIONS.KARMA_RUN_COMPLETE:
         case KARMA_ACTIONS.KARMA_NEW_SPEC:
-            return TEST_RESULT_INIT_STATE.withMutations((_state) => _state
+            return state.withMutations((_state) => _state
+                .set('id', action.payload.id)
                 .set('description', action.payload.description)
                 .set('suite', action.payload.suite)
-                .set('success', action.payload.success));
+                .set('success', action.payload.success)
+                .set('log', action.payload.log));
         default:
             return state;
     }

@@ -9,16 +9,16 @@ export interface ISessionState {
     toJS: () => any;
     updateIn: (keyPath: string[], updater: (value: any) => any) => ISessionState;
     get(key: 'browser'): string;
-    get(key: 'results'): Immutable.List<ITestResultState>;
+    get(key: 'results'): Immutable.Map<string, ITestResultState>;
     get(key: 'suites'): Immutable.Map<string, string>;
     set(key: 'browser', browsers: string);
-    set(key: 'results', results: Immutable.List<ITestResultState>);
+    set(key: 'results', results: Immutable.Map<string, ITestResultState>);
     set(key: 'suites', map: Immutable.Map<string, string>);
 };
 
 export const SESSION_INIT_STATE: ISessionState = Immutable.fromJS({
     browser: undefined,
-    results: [],
+    results: {},
     suites: {}
 });
 
@@ -42,15 +42,17 @@ export const session: Reducer<ISessionState> =
                         state = createOrUpdateSuite(suite, i, result.success, state);
                     }
                 }
-                return state.set('results', state.get('results')
-                    .push(testResult(TEST_RESULT_INIT_STATE, {
-                        type: KARMA_ACTIONS.KARMA_NEW_SPEC,
-                        payload: {
-                            description: result.description,
-                            suite: hash(result.suite),
-                            success: result.success
-                        }
-                    })));
+                let specId = md5([...result.suite, result.description]);
+                state = state.updateIn(['results', specId], (_state) => testResult(_state, {
+                    type: KARMA_ACTIONS.KARMA_NEW_SPEC,
+                    payload: {
+                        id: specId,
+                        description: result.description,
+                        suite: hash(result.suite),
+                        success: result.success,
+                        log: result.log
+                    }
+                }));
             default:
                 return state;
         }
@@ -76,4 +78,8 @@ function createOrUpdateSuite(
         })));
     }
     return state;
+}
+
+function createOrUpdateTestResult(state: ISessionState) {
+        
 }
