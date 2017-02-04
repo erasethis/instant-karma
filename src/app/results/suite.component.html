@@ -1,8 +1,8 @@
 <div [style.width]="width">
     <md-nav-list>
-        <md-list-item *ngFor="let item of suite.suites">
-            <div md-list-avatar
-                [ngClass]="{ 'ink-success': item.success }">
+        <md-list-item *ngFor="let item of suite.suites"
+            [ngClass]="{ 'ink-success': item.success, 'ink-selected': item.selected }">
+            <div md-list-avatar>
                 <md-icon svgIcon="layers"></md-icon>
             </div>
             <a md-line [routerLink]="['/results', item.id]">
@@ -13,9 +13,9 @@
         </md-list-item>
     </md-nav-list>
     <md-nav-list>
-        <md-list-item *ngFor="let item of suite.results">
-            <div md-list-avatar
-                [ngClass]="{ 'ink-success': item.success }">
+        <md-list-item *ngFor="let item of suite.results"
+            [ngClass]="{ 'ink-success': item.success, 'ink-selected': item.selected }">
+            <div md-list-avatar>
                 <md-icon svgIcon="colorize"></md-icon>
             </div>
             <a md-line [routerLink]="['/results', item.id]">

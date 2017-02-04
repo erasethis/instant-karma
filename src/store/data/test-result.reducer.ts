@@ -8,6 +8,7 @@ export interface ITestResultState {
     withMutations(mutator: (mutable: ITestResultState) => ITestResultState): ITestResultState;
     get(key: 'id'): string;
     get(key: 'description'): string;
+    get(key: 'suite'): string;
     get(key: 'success'): boolean;
     get(key: 'log'): Immutable.List<string>;
     set(key: 'id', id: string);

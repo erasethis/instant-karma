@@ -1,6 +1,14 @@
 <div class="ink-result">
-    <div class="ink-caption">
-        <span>{{result.description}}</span>
+    <div class="ink-header">
+        <div class="ink-avatar">
+            <md-icon svgIcon="colorize"></md-icon>
+        </div>
+        <div class="ink-caption">
+            <div *ngFor="let step of result.path">
+                {{step.name}}
+            </div>
+            <div>{{result.description}}</div>
+        </div>
     </div>
-    <div class="ink-log" *ngFor="let log of result.log">{{log}}</div>
+    <p class="ink-log" *ngFor="let log of result.log">{{log}}</p>
 </div>

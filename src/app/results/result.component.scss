@@ -2,10 +2,34 @@
     font-family: "Segoe UI", Helvetica, sans-serif;   
 }
 
-.ink-caption {
-    padding: 8px 12px;
+.ink-header {
+    display: flex;
+    flex-direction: row;
+    background: rgb(144, 0, 0);
     color: white;
-    line-height: 32px;
+    padding: 8px;
+}
+
+.ink-avatar {
+    width: 40px;
+    height: 40px;
+    background: white;
+    color: rgb(144, 0, 0);
+    border-radius: 50%;
+    position: relative;
+    margin: 0 8px;
+
+    md-icon {
+        position: absolute;
+        top: 8px;
+        left: 8px;
+    }
+}
+
+.ink-caption {
+    padding: 0 8px;
+    color: white;
+    line-height: 20px;
     box-sizing: border-box;
     background: rgb(144, 0, 0);
     overflow: hidden;
@@ -21,42 +45,7 @@
 }
 
 .ink-log {
+    margin: 0;
     padding: 8px 12px;
     font-family: Consolas;
 }
-
-/*
-.ink-item {
-    display: block;
-    width: 100%;
-    padding: 8px 12px;
-    font-family: "Segoe UI", Helvetica, sans-serif;
-    text-decoration: none;
-    color: white;
-    line-height: 32px;
-    box-sizing: border-box;
-    background: rgb(144, 0, 0);
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-
-    &.ink-selected {
-        background: rgb(192, 0, 0);
-    }
-
-    &.ink-success {
-        background: rgb(0, 144, 0);
-    }
-
-    &.ink-success.ink-selected {
-        background: rgb(0, 192, 0);
-    }
-
-    md-icon {
-        width: 32px;
-        height: 32px;
-        vertical-align: middle;
-        margin-right: 12px;
-    }
-}
-*/

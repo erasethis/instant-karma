@@ -10,14 +10,46 @@ md-list-item {
         background: rgb(144, 0, 0);
         color: white;
 
-        &.ink-success {
-            background: rgb(0, 144, 0);
-        }
-
         md-icon {
             position: absolute;
             left: 8px;
             top: 8px;
+        }
+    }
+
+    &.ink-selected {
+        background: rgb(144, 0, 0);
+
+        div[md-list-avatar] {
+            background: white;
+            color: rgb(144, 0, 0);
+        }
+
+        .ink-description {
+            color: white;
+        }
+
+        .ink-status {
+            color: #ffe0e0;
+        }
+    }
+
+    &.ink-success {
+        div[md-list-avatar] {
+            background: rgb(0, 144, 0);
+        } 
+
+        &.ink-selected {
+            background: rgb(0, 144, 0);  
+
+            div[md-list-avatar] {
+                background: white;
+                color: rgb(0, 144, 0);
+            }
+
+            .ink-status {
+                color: #e0ffe0;
+            } 
         }
     }
 }

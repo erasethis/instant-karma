@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 import { select } from 'ng2-redux';
 import * as Immutable from 'immutable';
-import { ISessionState } from '../../store';
+import { ISessionState, ITestResultState } from '../../store';
 import { IResult } from './result.model';
 import { ISuite } from './suite.model';
 
@@ -47,11 +47,13 @@ export class ResultsComponent implements OnInit {
             if (results[id].log.length > 0) {
                 model.result = {
                     id,
+                    path: this.getPath(results[id], session),
                     description: results[id].description,
                     log: results[id].log
                 };
                 width *= 0.4;
             }
+            selectedId = id;
             id = results[id].suite;
         }
 
@@ -69,6 +71,19 @@ export class ResultsComponent implements OnInit {
         console.log('model = ', model)
         return model;
     }
+    private getPath(result: any, session: any): string[] {
+        let suites = session.suites;
+        let parentId = result.suite;
+        let path: string[] = [];
+        while (parentId) {
+            let suiteName = parentId in suites ? suites[parentId] : undefined;
+            if (suiteName) {
+                path.unshift(suiteName);
+            }
+            parentId = parentId in suites ? suites[parentId].suite : undefined;
+        }
+        return path;
+    }
 
     private getSuite(session: any, id: string, selectedId: string, width: number): ISuite {
         let suite: ISuite = { suites: [], results: [], log: [], width: '100%' };
@@ -77,7 +92,7 @@ export class ResultsComponent implements OnInit {
         }
 
         if (session.results) {
-            suite.results = this.filterById(session.results, id, null);
+            suite.results = this.filterById(session.results, id, selectedId);
 
             suite.width = `${width}%`;
 
