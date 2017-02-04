@@ -5,19 +5,20 @@
 .ink-header {
     display: flex;
     flex-direction: row;
-    background: rgb(144, 0, 0);
-    color: white;
+    background: white;
+    color: rgb(144, 0, 0);;
     padding: 8px;
+    border-bottom: 1px solid rgba(0, 0, 0, .12);
 }
 
 .ink-avatar {
     width: 40px;
     height: 40px;
-    background: white;
-    color: rgb(144, 0, 0);
+    background: rgb(144, 0, 0);;
+    color: white;
     border-radius: 50%;
     position: relative;
-    margin: 0 8px;
+    margin: 0;
 
     md-icon {
         position: absolute;
@@ -28,10 +29,10 @@
 
 .ink-caption {
     padding: 0 8px;
-    color: white;
+    color: black;
     line-height: 20px;
     box-sizing: border-box;
-    background: rgb(144, 0, 0);
+    background: white;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis; 
@@ -42,6 +43,12 @@
         vertical-align: middle;
         margin-right: 12px;
     }
+}
+
+.ink-status {
+    font-weight: bold;
+    font-size: 12px;
+    color: #888;
 }
 
 .ink-log {

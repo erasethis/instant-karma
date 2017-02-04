@@ -17,3 +17,22 @@ nav a {
   text-decoration: none;
   border-radius: 4px;
 }
+
+md-list a[md-list-item] .md-list-item, 
+md-list md-list-item .md-list-item, 
+md-nav-list a[md-list-item] .md-list-item, 
+md-nav-list md-list-item .md-list-item {
+    padding: 0 8px !important;
+}
+
+md-list a[md-list-item] [md-line]:nth-child(n+2), 
+md-list md-list-item [md-line]:nth-child(n+2), 
+md-nav-list a[md-list-item] [md-line]:nth-child(n+2), 
+md-nav-list md-list-item [md-line]:nth-child(n+2) {
+    font-size: 12px !important;
+}
+
+.md-tab-body-wrapper,
+.md-tab-body-content {
+    height: 100%;
+}

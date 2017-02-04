@@ -8,6 +8,8 @@
                 {{step.name}}
             </div>
             <div>{{result.description}}</div>
+            <div *ngIf="result.success" class="ink-status">SUCCEEDED</div>
+            <div *ngIf="!result.success" class="ink-status">FAILED</div>
         </div>
     </div>
     <p class="ink-log" *ngFor="let log of result.log">{{log}}</p>

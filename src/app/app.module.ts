@@ -28,7 +28,7 @@ import { IKarmaReporterHostAddress, KarmaReporter } from '../services';
 
 import '../styles/styles.scss';
 import '../styles/headings.css';
-import '../styles/deeppurple-amber.css';
+import '../styles/indigo-pink.css';
 
 declare var window: {
     devToolsExtension: any

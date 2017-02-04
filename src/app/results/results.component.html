@@ -1,11 +1,15 @@
-<div class="ink-layout">
-    <ink-suite *ngFor="let suite of (model | async).suites" 
-        class="ink-suite"
-        [suite]="suite"
-        [style.width]="suite.width">
-    </ink-suite>
-    <ink-result *ngIf="(model | async).result"
-        class="ink-result"
-        [result]="(model | async).result">
-    </ink-result>
-</div>
+<md-tab-group>
+    <md-tab [label]="(model | async).browser">
+            <div class="ink-layout">
+                <ink-suite *ngFor="let suite of (model | async).suites" 
+                    class="ink-suite"
+                    [suite]="suite"
+                    [style.width]="suite.width">
+                </ink-suite>
+                <ink-result *ngIf="(model | async).result"
+                    class="ink-result"
+                    [result]="(model | async).result">
+                </ink-result>
+            </div>
+    </md-tab>
+</md-tab-group>

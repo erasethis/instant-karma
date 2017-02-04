@@ -14,6 +14,7 @@ import { ISuite } from './suite.model';
 })
 export class ResultsComponent implements OnInit {
     public model: Observable<{
+        browser: string,
         suites: ISuite[],
         result: IResult
     }>;
@@ -36,11 +37,15 @@ export class ResultsComponent implements OnInit {
         suites: ISuite[],
         result: IResult
     } {
-        let model = { suites: [], result: undefined };
         let id = c.id;
         let session = c.session.toJS();
         let selectedId = null;
         let width = 60;
+        let model = {
+            browser: (session.browser) ? session.browser.name : '',
+            suites: [],
+            result: undefined
+        };
 
         if (session.results && id in session.results) {
             let results = session.results;
