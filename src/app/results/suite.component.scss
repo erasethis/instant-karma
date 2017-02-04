@@ -1,35 +1,33 @@
-.ink-item {
-    display: block;
-    width: 100%;
-    padding: 8px 12px;
+md-nav-list {
+    padding: 0;
+}
+
+md-list-item {
+    border-bottom: 1px solid rgba(0, 0, 0, .12);
+
+    div[md-list-avatar] {
+        position: relative;
+        background: rgb(144, 0, 0);
+        color: white;
+
+        &.ink-success {
+            background: rgb(0, 144, 0);
+        }
+
+        md-icon {
+            position: absolute;
+            left: 8px;
+            top: 8px;
+        }
+    }
+}
+
+.ink-description, .ink-status {
     font-family: "Segoe UI", Helvetica, sans-serif;
-    text-decoration: none;
-    color: white;
-    line-height: 32px;
-    box-sizing: border-box;
-    background: rgb(144, 0, 0);
-    /* background: linear-gradient(to right, red , white); */
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+}
 
-    &.ink-selected {
-        background: rgb(192, 0, 0);
-    }
-
-    &.ink-success {
-        background: rgb(0, 144, 0);
-        /* background: linear-gradient(to right, green , white); */
-    }
-
-    &.ink-success.ink-selected {
-        background: rgb(0, 192, 0);
-    }
-
-    md-icon {
-        width: 32px;
-        height: 32px;
-        vertical-align: middle;
-        margin-right: 12px;
-    }
+.ink-status {
+    font-weight: bold;
+    font-size: 12px;
+    color: #888;
 }
