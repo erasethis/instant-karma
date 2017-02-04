@@ -1,0 +1,4 @@
+export const SPEC_ACTIONS = {
+    SPEC_CREATE: 'SPEC_CREATE',
+    SPEC_UPDATE: 'SPEC_UPDATE'
+};

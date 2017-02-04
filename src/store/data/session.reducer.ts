@@ -2,7 +2,7 @@ import { Action } from 'flux-standard-action';
 import { Reducer } from 'redux';
 import * as Immutable from 'immutable';
 import * as md5 from 'md5-hex';
-import { KARMA_ACTIONS } from '../../services/karma.actions';
+import { KARMA_ACTIONS, SPEC_ACTIONS } from '../../services';
 import { testResult, ITestResultState, TEST_RESULT_INIT_STATE } from './test-result.reducer';
 
 export interface ISessionState {
@@ -11,15 +11,18 @@ export interface ISessionState {
     get(key: 'browser'): string;
     get(key: 'results'): Immutable.Map<string, ITestResultState>;
     get(key: 'suites'): Immutable.Map<string, string>;
+    get(key: 'success'): boolean;
     set(key: 'browser', browsers: string);
     set(key: 'results', results: Immutable.Map<string, ITestResultState>);
     set(key: 'suites', map: Immutable.Map<string, string>);
+    set(key: 'success', success: boolean);
 };
 
 export const SESSION_INIT_STATE: ISessionState = Immutable.fromJS({
     browser: undefined,
     results: {},
-    suites: {}
+    suites: {},
+    success: false
 });
 
 const VOID: Action<any> = {
@@ -44,7 +47,7 @@ export const session: Reducer<ISessionState> =
                 }
                 let specId = md5([...result.suite, result.description]);
                 state = state.updateIn(['results', specId], (_state) => testResult(_state, {
-                    type: KARMA_ACTIONS.KARMA_NEW_SPEC,
+                    type: SPEC_ACTIONS.SPEC_CREATE,
                     payload: {
                         id: specId,
                         description: result.description,

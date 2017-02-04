@@ -2,7 +2,7 @@ import { Action } from 'flux-standard-action';
 import { Reducer } from 'redux';
 import * as Immutable from 'immutable';
 import * as md5 from 'md5-hex';
-import { KARMA_ACTIONS } from '../../services/karma.actions';
+import { KARMA_ACTIONS, SPEC_ACTIONS } from '../../services';
 
 export interface ITestResultState {
     withMutations(mutator: (mutable: ITestResultState) => ITestResultState): ITestResultState;
@@ -34,9 +34,7 @@ export const testResult: Reducer<ITestResultState> =
     (state: ITestResultState = TEST_RESULT_INIT_STATE, action: Action<any> = VOID):
         ITestResultState => {
     switch (action.type) {
-        // case KARMA_ACTIONS.KARMA_BROWSER_START:
-        // case KARMA_ACTIONS.KARMA_RUN_COMPLETE:
-        case KARMA_ACTIONS.KARMA_NEW_SPEC:
+        case SPEC_ACTIONS.SPEC_CREATE:
             return state.withMutations((_state) => _state
                 .set('id', action.payload.id)
                 .set('description', action.payload.description)

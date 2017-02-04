@@ -1,0 +1,4 @@
+export const SUITE_ACTIONS = {
+    SUITE_CREATE: 'SUITE_CREATE',
+    SUITE_UPDATE: 'SUITE_UPDATE'
+};
