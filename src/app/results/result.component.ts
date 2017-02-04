@@ -1,5 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { IResult } from './result.model';
+import { Component, Input } from '@angular/core';
 
 @Component({
     selector: 'ink-result',
@@ -8,5 +7,11 @@ import { IResult } from './result.model';
 })
 export class ResultComponent {
     @Input()
-    public result: IResult;
+    public path: string[];
+
+    @Input()
+    public description: string;
+
+    @Input()
+    public success: boolean;
 };

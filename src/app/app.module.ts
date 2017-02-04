@@ -21,7 +21,13 @@ import { IAppState, rootReducer } from '../store';
 import { AppComponent } from './app.component';
 import { BrowserComponent } from './home/browser.component';
 import { HomeComponent } from './home';
-import { ResultComponent, ResultsComponent, SuiteComponent } from './results';
+
+import {
+    ResultComponent,
+    ResultDetailComponent,
+    ResultsComponent,
+    SuiteComponent
+} from './results';
 
 //import { AboutComponent } from './about';
 import { IKarmaReporterHostAddress, KarmaReporter } from '../services';
@@ -42,6 +48,7 @@ declare var window: {
         //AboutComponent,
         HomeComponent,
         ResultComponent,
+        ResultDetailComponent,
         ResultsComponent,
         SuiteComponent
     ],

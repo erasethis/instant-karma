@@ -1,16 +1,14 @@
-<div class="ink-result">
-    <div class="ink-header">
-        <div class="ink-avatar">
-            <md-icon svgIcon="colorize"></md-icon>
-        </div>
-        <div class="ink-caption">
-            <div *ngFor="let step of result.path">
-                {{step.name}}
-            </div>
-            <div>{{result.description}}</div>
-            <div *ngIf="result.success" class="ink-status">SUCCEEDED</div>
-            <div *ngIf="!result.success" class="ink-status">FAILED</div>
-        </div>
+<div class="ink-header" [ngClass]="{ 'ink-success': success }">
+    <div class="ink-avatar">
+        <md-icon *ngIf="success" svgIcon="layers"></md-icon>
+        <md-icon *ngIf="!success" svgIcon="colorize"></md-icon>
     </div>
-    <p class="ink-log" *ngFor="let log of result.log">{{log}}</p>
+    <div class="ink-caption">
+        <div *ngFor="let part of path">
+            {{part.name}}
+        </div>
+        <div>{{description}}</div>
+        <div *ngIf="success" class="ink-status">SUCCEEDED</div>
+        <div *ngIf="!success" class="ink-status">FAILED</div>
+    </div>
 </div>

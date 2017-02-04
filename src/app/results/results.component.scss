@@ -9,7 +9,7 @@ md-tab-group {
     height: 100%;
 }
 
-.ink-suite, .ink-result {
+.ink-suite, .ink-result-detail {
     padding: 0;
     box-shadow: -4px 0 4px -2px rgba(0, 0, 0, 0.4);
     flex-shrink: 1;
@@ -22,6 +22,6 @@ md-tab-group {
     }
 }
 
-ink-result {
+ink-result-detail {
     width: 60%;
 }

@@ -48,18 +48,17 @@ export class ResultsComponent implements OnInit {
         };
 
         if (session.results && id in session.results) {
-            let results = session.results;
-            if (results[id].log.length > 0) {
-                model.result = {
-                    id,
-                    path: this.getPath(results[id], session),
-                    description: results[id].description,
-                    log: results[id].log
-                };
-                width *= 0.4;
-            }
+            let result = session.results[id];
+            model.result = {
+                id,
+                path: this.getPath(result, session),
+                description: result.description,
+                success: result.success,
+                log: result.log
+            };
+            width *= 0.4;
             selectedId = id;
-            id = results[id].suite;
+            id = result.suite;
         }
 
         while (true) {

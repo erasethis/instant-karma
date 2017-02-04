@@ -6,10 +6,10 @@
                     [suite]="suite"
                     [style.width]="suite.width">
                 </ink-suite>
-                <ink-result *ngIf="(model | async).result"
-                    class="ink-result"
+                <ink-result-detail *ngIf="(model | async).result"
+                    class="ink-result-detail"
                     [result]="(model | async).result">
-                </ink-result>
+                </ink-result-detail>
             </div>
     </md-tab>
 </md-tab-group>
