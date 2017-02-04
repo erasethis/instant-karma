@@ -36,3 +36,8 @@ md-nav-list md-list-item [md-line]:nth-child(n+2) {
 .md-tab-body-content {
     height: 100%;
 }
+
+.md-tab-label {
+    font-family: "Segoe UI", Helvetica, sans-serif !important;
+    font-weight: 400 !important;
+}
