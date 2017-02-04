@@ -1,28 +1,22 @@
 <div [style.width]="width">
-    <md-nav-list>
-        <md-list-item *ngFor="let item of suite.suites"
-            [ngClass]="{ 'ink-success': item.success, 'ink-selected': item.selected }">
-            <div md-list-avatar>
-                <md-icon svgIcon="layers"></md-icon>
-            </div>
-            <a md-line [routerLink]="['/results', item.id]">
-                <span class="ink-description">{{item.name}}</span>
-                <span md-line *ngIf="item.success" class="ink-status">SUCCEEDED</span>
-                <span md-line *ngIf="!item.success" class="ink-status">FAILED</span>
-            </a>
-        </md-list-item>
-    </md-nav-list>
-    <md-nav-list>
-        <md-list-item *ngFor="let item of suite.results"
-            [ngClass]="{ 'ink-success': item.success, 'ink-selected': item.selected }">
-            <div md-list-avatar>
-                <md-icon svgIcon="colorize"></md-icon>
-            </div>
-            <a md-line [routerLink]="['/results', item.id]">
-                <span class="ink-description">{{item.description}}</span>
-                <span md-line *ngIf="item.success" class="ink-status">SUCCEEDED</span>
-                <span md-line *ngIf="!item.success" class="ink-status">FAILED</span>
-            </a>
-        </md-list-item>
-    </md-nav-list>
+    <a *ngFor="let item of suite.suites"
+        [routerLink]="['/results', item.id]"
+        class="ink-result-anchor">
+        <ink-result
+            icon="layers"
+            [description]="item.name"
+            [success]="item.success"
+            [selected]="item.selected">
+        </ink-result>
+    </a>
+    <a *ngFor="let item of suite.results"
+        [routerLink]="['/results', item.id]"
+        class="ink-result-anchor">
+        <ink-result
+            icon="colorize"
+            [description]="item.description"
+            [success]="item.success"
+            [selected]="item.selected">
+        </ink-result>
+    </a>
 </div>

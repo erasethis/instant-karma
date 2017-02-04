@@ -1,3 +1,7 @@
+:host {
+    overflow: hidden;
+}
+
 .ink-header {
     display: flex;
     flex-direction: row;
@@ -14,6 +18,8 @@
     border-radius: 50%;
     position: relative;
     margin: 0;
+    flex-shrink: 0;
+    flex-grow: 0;
 
     md-icon {
         position: absolute;
@@ -22,16 +28,11 @@
     }
 }
 
-.ink-success .ink-avatar {
-    background: rgb(0, 144, 0);
-}
-
 .ink-caption {
     padding: 0 8px;
     color: black;
     line-height: 20px;
     box-sizing: border-box;
-    background: white;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis; 
@@ -50,3 +51,44 @@
     font-size: 12px;
     color: #888;
 }
+
+.ink-selected {
+    background: rgb(144, 0, 0);
+
+    .ink-avatar {
+        background: white;
+        color: rgb(144, 0, 0);;
+    }
+
+    .ink-caption {
+        color: white;
+    }
+
+    .ink-status {
+        color: rgb(255, 208, 208);
+    }   
+}
+
+.ink-success {
+    .ink-avatar {
+        background: rgb(0, 144, 0);
+    }
+    
+    &.ink-selected {
+        background: rgb(0, 144, 0);
+
+        .ink-avatar {
+            background: white;
+            color: rgb(0, 144, 0);;
+        }
+
+        .ink-caption {
+            color: white;
+        }
+
+        .ink-status {
+            color: rgb(208, 255, 208);
+        }
+    }
+}
+

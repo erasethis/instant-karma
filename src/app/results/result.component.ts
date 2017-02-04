@@ -7,6 +7,9 @@ import { Component, Input } from '@angular/core';
 })
 export class ResultComponent {
     @Input()
+    public icon: string;
+
+    @Input()
     public path: string[];
 
     @Input()
@@ -14,4 +17,7 @@ export class ResultComponent {
 
     @Input()
     public success: boolean;
+
+    @Input()
+    public selected: boolean;
 };

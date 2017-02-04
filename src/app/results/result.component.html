@@ -1,11 +1,12 @@
-<div class="ink-header" [ngClass]="{ 'ink-success': success }">
+<div class="ink-header" [ngClass]="{ 'ink-success': success, 'ink-selected': selected }">
     <div class="ink-avatar">
-        <md-icon *ngIf="success" svgIcon="layers"></md-icon>
-        <md-icon *ngIf="!success" svgIcon="colorize"></md-icon>
+        <md-icon [svgIcon]="icon"></md-icon>
     </div>
     <div class="ink-caption">
-        <div *ngFor="let part of path">
-            {{part.name}}
+        <div *ngIf="path">
+            <div *ngFor="let item of path">
+                {{item.name}}
+            </div>
         </div>
         <div>{{description}}</div>
         <div *ngIf="success" class="ink-status">SUCCEEDED</div>
