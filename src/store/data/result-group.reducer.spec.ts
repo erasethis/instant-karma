@@ -66,15 +66,8 @@ describe('result group reducer', () => {
         });
         describe('result with that description doesn\'t exist yet', () => {
             it('should create the result', () => {
-                let result = resultReducer.RESULT_INIT_STATE.withMutations((_result) => _result
-                    .set('id', 'foo')
-                    .set('description', 'bar')
-                );
-                let state = RESULT_GROUP_INIT_STATE.set('results',
-                    Immutable.List([result]));
-
-                expect(resultGroup(state, action).get('results'))
-                    .toEqual(Immutable.List([result]));
+                expect(resultGroup(RESULT_GROUP_INIT_STATE, action).get('results').count())
+                    .toBe(1);
             });
         });
         describe('result with that description already exists', () => {
@@ -84,8 +77,8 @@ describe('result group reducer', () => {
                         { id: 'foo', description: 'bar' }
                     ]
                 });
-                expect(resultGroup(state, action).get('results').toJS())
-                    .toEqual([{ id: 'foo', description: 'bar' }]);
+                expect(resultGroup(state, action).get('results').count())
+                    .toBe(1);
             });
         });
     });

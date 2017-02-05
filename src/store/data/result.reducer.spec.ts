@@ -5,9 +5,10 @@ import {
     platformBrowserDynamicTesting
 } from '@angular/platform-browser-dynamic/testing';
 
+import { Action } from 'flux-standard-action';
 import * as Immutable from 'immutable';
 import 'jasmine-expect';
-import { KARMA_ACTIONS } from '../../services/karma.actions';
+import { KARMA_ACTIONS, RESULT_ACTIONS } from '../../services';
 import { result, IResultState, RESULT_INIT_STATE, ResultStatus } from './result.reducer';
 
 describe('result reducer', () => {
@@ -47,6 +48,32 @@ describe('result reducer', () => {
             expect(result(RESULT_INIT_STATE, {
                 type: KARMA_ACTIONS.KARMA_BROWSER_START
             }).get('status')).toBe(ResultStatus.Pending);
+        });
+    });
+    describe('on RESULT_ADD_OR_UPDATE', () => {
+        let action: Action<any>;
+        beforeEach(() => {
+            action = {
+                type: RESULT_ACTIONS.RESULT_ADD_OR_UPDATE,
+                payload: {
+                    id: 'foo',
+                    parentId: 'bar',
+                    icon: 'foo-icon',
+                    description: 'foo-description'
+                }
+            };
+        });
+        it('should set the "id" property', () => {
+            expect(result(RESULT_INIT_STATE, action).get('id')).toBe('foo');
+        });
+        it('should set the "parentId" property', () => {
+            expect(result(RESULT_INIT_STATE, action).get('parentId')).toBe('bar');
+        });
+        it('should set the "icon" property', () => {
+            expect(result(RESULT_INIT_STATE, action).get('icon')).toBe('foo-icon');
+        });
+        it('should set the "description" property', () => {
+            expect(result(RESULT_INIT_STATE, action).get('description')).toBe('foo-description');
         });
     });
 });
