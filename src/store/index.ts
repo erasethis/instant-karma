@@ -26,6 +26,7 @@ const VOID: Action<any> = {
 export const rootReducer = (state = INIT_STATE, action = VOID) => {
     switch (action.type) {
         case KARMA_ACTIONS.KARMA_BROWSER_START:
+        case KARMA_ACTIONS.KARMA_BROWSER_COMPLETE:
         case KARMA_ACTIONS.KARMA_RUN_COMPLETE:
         case KARMA_ACTIONS.KARMA_RUN_START:
         case KARMA_ACTIONS.KARMA_SPEC_COMPLETE:

@@ -2,7 +2,7 @@ import { Action } from 'flux-standard-action';
 import { Reducer } from 'redux';
 import * as Immutable from 'immutable';
 import * as md5 from 'md5-hex';
-import { KARMA_ACTIONS } from '../../services';
+import { KARMA_ACTIONS, RESULT_ACTIONS } from '../../services';
 
 export const enum ResultStatus {
     Disabled,
@@ -57,6 +57,14 @@ export const result: Reducer<IResultState> =
     switch (action.type) {
         case KARMA_ACTIONS.KARMA_BROWSER_START: {
             return state.update('status', (_status) => ResultStatus.Pending);
+        }
+        case RESULT_ACTIONS.RESULT_ADD_OR_UPDATE: {
+            return state.withMutations((_state) => _state
+                .set('id', action.payload.id)
+                .set('parentId', action.payload.parentId)
+                .set('icon', action.payload.icon)
+                .set('description', action.payload.description)
+            );
         }
         default:
             return state;

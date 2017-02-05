@@ -2,8 +2,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 import { select } from 'ng2-redux';
-import * as Immutable from 'immutable';
-import { ISessionState, ITestResultState } from '../../store';
+import * as Immutable from 'immutable'; 
+import { IRunState, ISessionState, ITestResultState } from '../../store';
 import { IResult } from './result.model';
 import { ISuite } from './suite.model';
 
@@ -21,6 +21,9 @@ export class ResultsComponent implements OnInit {
 
     @select(['data', 'session'])
     private session: Observable<ISessionState>;
+
+    @select(['data', 'run'])
+    private run: Observable<IRunState>;
 
     constructor(private route: ActivatedRoute) { }
 
@@ -72,7 +75,7 @@ export class ResultsComponent implements OnInit {
             selectedId = id;
             id = this.getParentId(id, session.suites);
         }
-        console.log('model = ', model)
+        //console.log('model = ', model)
         return model;
     }
     private getPath(result: any, session: any): string[] {

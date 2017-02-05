@@ -20,6 +20,14 @@ export class KarmaReporter {
             let data = JSON.parse(message.data);
             // console.log('data = ', data)
             switch (data.type) {
+                case 'run-start':
+                    this.ngRedux.dispatch({
+                        type: KARMA_ACTIONS.KARMA_RUN_START,
+                        payload: {
+                            browsers: data.browsers
+                        }
+                    });
+                    break;
                 case 'browser-start':
                     this.ngRedux.dispatch({
                         type: KARMA_ACTIONS.KARMA_BROWSER_START,
@@ -36,6 +44,14 @@ export class KarmaReporter {
                             browser: data.browser,
                             result: data.result,
                             log: data.log
+                        }
+                    });
+                    break;
+                case 'browser-complete':
+                    this.ngRedux.dispatch({
+                        type: KARMA_ACTIONS.KARMA_BROWSER_COMPLETE,
+                        payload: {
+                            browser: data.browser
                         }
                     });
                     break;

@@ -48,19 +48,33 @@ describe('run reducer', () => {
         });
     });
     describe('on KARMA_BROWSER_START', () => {
-        it('should pass the action on to its browsers', () => {
-            let browser = Immutable.fromJS({ foo: 'bar' });
-            let state = RUN_INIT_STATE.update('browsers', (_browsers) => _browsers.push(browser));
-            let action = {
+        let action: Action<any>;
+        beforeEach(() => {
+            action = {
                 type: KARMA_ACTIONS.KARMA_BROWSER_START,
                 payload: {
-                    id: 'foo',
-                    name: 'bar'
+                    browser: {
+                        id: 'foo',
+                        name: 'bar'
+                    }
                 }
             };
-            spyOn(browserReducer, 'browser');
-            run(state, action);
-            expect(browserReducer.browser).toHaveBeenCalledWith(browser, action);
+        });
+        describe('browser not yet registered', () => {
+            it('should add the browser', () => {
+                expect(run(RUN_INIT_STATE, action).get('browsers').count())
+                    .toBe(1);
+            });
+        });
+        describe('browser already registered', () => {
+            it('should pass the action on to its browsers', () => {
+                let browser = browserReducer.BROWSER_INIT_STATE;
+                let state = RUN_INIT_STATE.update('browsers', (_browsers) =>
+                    _browsers.push(browser));
+                spyOn(browserReducer, 'browser');
+                run(state, action);
+                expect(browserReducer.browser).toHaveBeenCalledWith(browser, action);
+            });
         });
     });
     describe('on KARMA_SPEC_COMPLETE', () => {

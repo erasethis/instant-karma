@@ -3,7 +3,7 @@ import { Reducer } from 'redux';
 import * as Immutable from 'immutable';
 import * as md5 from 'md5-hex';
 import { KARMA_ACTIONS } from '../../services';
-import { browser, IBrowserState } from './browser.reducer';
+import { browser, IBrowserState, BROWSER_INIT_STATE } from './browser.reducer';
 
 export interface IRunState {
     toJS: () => any;
@@ -38,6 +38,14 @@ export const run: Reducer<IRunState> =
                 .set('completed', false));
         }
         case KARMA_ACTIONS.KARMA_BROWSER_START:
+            return state.update('browsers', (_browsers) => {
+                let index = _browsers.findIndex((_browser) =>
+                    _browser.get('id') === action.payload.browser.id);
+
+                return index >= 0
+                    ? _browsers.update(index, (_browser) => browser(_browser, action))
+                    : _browsers.push(browser(BROWSER_INIT_STATE, action));
+            });
         case KARMA_ACTIONS.KARMA_SPEC_COMPLETE:
         case KARMA_ACTIONS.KARMA_BROWSER_COMPLETE: {
             return state.update('browsers', (_browsers: Immutable.List<IBrowserState>) =>
@@ -52,5 +60,5 @@ export const run: Reducer<IRunState> =
 };
 
 function createId(): string {
-    return (Math.random() * 899999 + 100000).toString();
+    return Math.floor((Math.random() * 899999 + 100000)).toString();
 }

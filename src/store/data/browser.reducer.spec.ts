@@ -44,8 +44,10 @@ describe('browser reducer', () => {
             action = {
                 type: KARMA_ACTIONS.KARMA_BROWSER_START,
                 payload: {
-                    id: 'foo',
-                    name: 'bar'
+                    browser: {
+                        id: 'foo',
+                        name: 'bar'
+                    }
                 }
             };
         });
@@ -87,31 +89,58 @@ describe('browser reducer', () => {
         });
         describe('results array is shorter than spec\'s path', () => {
             it('should create additional result groups', () => {
+                let group = resultGroupReducer.RESULT_GROUP_INIT_STATE;
                 let state = BROWSER_INIT_STATE.update('groups', (_groups) =>
-                    _groups.push({ foo: 'bar' }));
+                    _groups.push(group));
                 expect(browser(state, action).get('groups').count()).toBe(3);
             });
         });
-        describe('results array is shorter than spec\'s path', () => {
+        describe('results array is longer than spec\'s path', () => {
             it('should not create additional result groups', () => {
-                let group = { foo: 'bar' };
+                let group = resultGroupReducer.RESULT_GROUP_INIT_STATE;
                 let state = BROWSER_INIT_STATE.update('groups', (_groups) =>
                     _groups.push(...[group, group, group, group]));
                 expect(browser(state, action).get('groups').count()).toBe(4);
             });
         });
-        it('should pass the action on to its result groups', () => {
+        it('should pass an action to each result group', () => {
             spyOn(resultGroupReducer, 'resultGroup');
             browser(BROWSER_INIT_STATE, action);
             expect(resultGroupReducer.resultGroup).toHaveBeenCalledTimes(3);
         });
     });
     describe('on KARMA_BROWSER_COMPLETE', () => {
-        it('should set its status to "complete"', () => {
-            let state = BROWSER_INIT_STATE.set('running', true);
-            expect(browser(state, {
-                type: KARMA_ACTIONS.KARMA_BROWSER_COMPLETE
-            }).get('running')).toBeFalse();
+        describe('browser ID is match', () => {
+            it('should set its status to "complete"', () => {
+                let state = BROWSER_INIT_STATE.withMutations((_state) => _state
+                    .set('id', 'foo')
+                    .set('running', true)
+                );
+                expect(browser(state, {
+                    type: KARMA_ACTIONS.KARMA_BROWSER_COMPLETE,
+                    payload: {
+                        browser: {
+                            id: 'foo'
+                        }
+                    }
+                }).get('running')).toBeFalse();
+            });
+        });
+        describe('browser ID does not match', () => {
+            it('should not change its status', () => {
+                let state = BROWSER_INIT_STATE.withMutations((_state) => _state
+                    .set('id', 'foo')
+                    .set('running', true)
+                );
+                expect(browser(state, {
+                    type: KARMA_ACTIONS.KARMA_BROWSER_COMPLETE,
+                    payload: {
+                        browser: {
+                            id: 'bar'
+                        }
+                    }
+                }).get('running')).toBeTrue();
+            });
         });
     });
 });

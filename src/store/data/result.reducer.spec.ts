@@ -54,7 +54,7 @@ describe('result reducer', () => {
         let action: Action<any>;
         beforeEach(() => {
             action = {
-                type: RESULT_ACTIONS.RESULT_ADD_OR_UPDATE,
+               type: RESULT_ACTIONS.RESULT_ADD_OR_UPDATE,
                 payload: {
                     id: 'foo',
                     parentId: 'bar',
