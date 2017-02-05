@@ -8,7 +8,7 @@ import {
 import * as Immutable from 'immutable';
 import 'jasmine-expect';
 import { KARMA_ACTIONS } from '../../services/karma.actions';
-import { result, IResultState, RESULT_INIT_STATE, TestStatus } from './result.reducer';
+import { result, IResultState, RESULT_INIT_STATE, ResultStatus } from './result.reducer';
 
 describe('result reducer', () => {
     describe('initial state', () => {
@@ -25,7 +25,7 @@ describe('result reducer', () => {
             expect(RESULT_INIT_STATE.get('description')).toBeUndefined();
         });
         it('should have its "status" property set to "None"', () => {
-            expect(RESULT_INIT_STATE.get('status')).toBe(TestStatus.None);
+            expect(RESULT_INIT_STATE.get('status')).toBe(ResultStatus.None);
         });
         it('should have its "log" property set to an empty array', () => {
             expect(RESULT_INIT_STATE.get('log').toJS()).toBeEmptyArray();
@@ -42,11 +42,11 @@ describe('result reducer', () => {
             })).toBe(state);
         });
     });
-    describe('KARMA_BROWSER_START', () => {
+    describe('on KARMA_BROWSER_START', () => {
         it('should set the "status" property to "Pending"', () => {
             expect(result(RESULT_INIT_STATE, {
                 type: KARMA_ACTIONS.KARMA_BROWSER_START
-            }).get('status')).toBe(TestStatus.Pending);
+            }).get('status')).toBe(ResultStatus.Pending);
         });
     });
 });

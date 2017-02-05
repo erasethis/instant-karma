@@ -13,10 +13,12 @@ export interface IBrowserState {
     get(key: 'id'): string;
     get(key: 'name'): string;
     get(key: 'suites'): Immutable.List<ISuiteState>;
+    get(key: 'running'): boolean;
     get(key: 'visible'): boolean;
     set(key: 'id', id: string);
     set(key: 'name', name: string);
     set(key: 'suites', suites: Immutable.List<ISuiteState>);
+    set(key: 'running', running: boolean);
     set(key: 'visible', visible: boolean);
 };
 
@@ -24,6 +26,7 @@ export const BROWSER_INIT_STATE: IBrowserState = Immutable.fromJS({
     id: undefined,
     name: undefined,
     suites: [],
+    running: false,
     visible: false
 });
 
@@ -39,8 +42,12 @@ export const browser: Reducer<IBrowserState> =
             return state.withMutations((_state) => _state
                 .set('id', action.payload.id)
                 .set('name', action.payload.name)
+                .set('running', true)
                 .update('suites', (_suites: Immutable.List<ISuiteState>) =>
                     _suites.map((_suite) => suite(_suite, action))));
+        }
+        case KARMA_ACTIONS.KARMA_BROWSER_COMPLETE: {
+            return state.set('running', false);
         }
         default:
             return state;

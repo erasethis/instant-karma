@@ -4,7 +4,7 @@ import * as Immutable from 'immutable';
 import * as md5 from 'md5-hex';
 import { KARMA_ACTIONS } from '../../services';
 
-export const enum TestStatus {
+export const enum ResultStatus {
     Disabled,
     Failed,
     None,
@@ -21,7 +21,7 @@ export interface IResultState {
     get(key: 'parentId'): string;
     get(key: 'icon'): string;
     get(key: 'description'): string;
-    get(key: 'status'): TestStatus;
+    get(key: 'status'): ResultStatus;
     get(key: 'log'): Immutable.List<string>;
     get(key: 'visible'): boolean;
     get(key: 'selected'): boolean;
@@ -29,7 +29,7 @@ export interface IResultState {
     set(key: 'parentId', parentId: string);
     set(key: 'icon', icon: string);
     set(key: 'description', description: string);
-    set(key: 'status', status: TestStatus);
+    set(key: 'status', status: ResultStatus);
     set(key: 'log', log: Immutable.List<string>);
     set(key: 'visible', visible: boolean);
     set(key: 'selected', selected: boolean);
@@ -40,7 +40,7 @@ export const RESULT_INIT_STATE: IResultState = Immutable.fromJS({
     parentId: undefined,
     icon: undefined,
     description: undefined,
-    status: TestStatus.None,
+    status: ResultStatus.None,
     log: [],
     visible: false,
     selected: false
@@ -55,7 +55,7 @@ export const result: Reducer<IResultState> =
     (state: IResultState = RESULT_INIT_STATE, action: Action<any> = VOID): IResultState => {
     switch (action.type) {
         case KARMA_ACTIONS.KARMA_BROWSER_START: {
-            return state.update('status', (_status) => TestStatus.Pending);
+            return state.update('status', (_status) => ResultStatus.Pending);
         }
         default:
             return state;

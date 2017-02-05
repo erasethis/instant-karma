@@ -34,7 +34,7 @@ describe('suite reducer', () => {
             })).toBe(state);
         });
     });
-    describe('KARMA_BROWSER_START', () => {
+    describe('on KARMA_BROWSER_START', () => {
         it('should pass the action on to its results', () => {
             let result = Immutable.fromJS({ foo: 'bar' });
             let state = SUITE_INIT_STATE.update('results', (_results) => _results.push(result));
