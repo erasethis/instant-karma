@@ -38,6 +38,7 @@ export const run: Reducer<IRunState> =
                 .set('completed', false));
         }
         case KARMA_ACTIONS.KARMA_BROWSER_START:
+        case KARMA_ACTIONS.KARMA_SPEC_COMPLETE:
         case KARMA_ACTIONS.KARMA_BROWSER_COMPLETE: {
             return state.update('browsers', (_browsers: Immutable.List<IBrowserState>) =>
                 _browsers.map((_browser) => browser(_browser, action)));

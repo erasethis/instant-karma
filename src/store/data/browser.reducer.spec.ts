@@ -10,7 +10,7 @@ import * as Immutable from 'immutable';
 import 'jasmine-expect';
 import { KARMA_ACTIONS } from '../../services/karma.actions';
 import { browser, IBrowserState, BROWSER_INIT_STATE } from './browser.reducer';
-import * as suiteReducer from './suite.reducer';
+import * as resultGroupReducer from './result-group.reducer';
 
 describe('browser reducer', () => {
     describe('initial state', () => {
@@ -20,8 +20,8 @@ describe('browser reducer', () => {
         it('should have its "name" property set to "undefined"', () => {
             expect(BROWSER_INIT_STATE.get('name')).toBeUndefined();
         });
-        it('should have its "suites" property set to an empty array', () => {
-            expect(BROWSER_INIT_STATE.get('suites').toJS()).toBeEmptyArray();
+        it('should have its "groups" property set to an empty array', () => {
+            expect(BROWSER_INIT_STATE.get('groups').toJS()).toBeEmptyArray();
         });
         it('should have its "running" property set to "false"', () => {
             expect(BROWSER_INIT_STATE.get('running')).toBeFalse();
@@ -58,12 +58,52 @@ describe('browser reducer', () => {
         it('should set its status to "running"', () => {
             expect(browser(BROWSER_INIT_STATE, action).get('running')).toBeTrue();
         });
-        it('should pass the action on to its suites', () => {
-            let suite = Immutable.fromJS({ foo: 'bar' });
-            let state = BROWSER_INIT_STATE.update('suites', (_suites) => _suites.push(suite));
-            spyOn(suiteReducer, 'suite');
+        it('should pass the action on to its result groups', () => {
+            let group = Immutable.fromJS({ foo: 'bar' });
+            let state = BROWSER_INIT_STATE.update('groups', (_groups) => _groups.push(group));
+            spyOn(resultGroupReducer, 'resultGroup');
             browser(state, action);
-            expect(suiteReducer.suite).toHaveBeenCalledWith(suite, action);
+            expect(resultGroupReducer.resultGroup).toHaveBeenCalledWith(group, action);
+        });
+    });
+    describe('on KARMA_SPEC_COMPLETE', () => {
+        let action: Action<any>;
+        beforeEach(() => {
+            action = {
+                type: KARMA_ACTIONS.KARMA_SPEC_COMPLETE,
+                payload: {
+                    result: {
+                        description: 'bar',
+                        suite: ['foo1', 'foo2', 'foo3'],
+                        success: true
+                    }
+                }
+            };
+        });
+        describe('results array is empty', () => {
+            it('should create a result group for each element in the spec\'s path', () => {
+                expect(browser(BROWSER_INIT_STATE, action).get('groups').count()).toBe(3);
+            });
+        });
+        describe('results array is shorter than spec\'s path', () => {
+            it('should create additional result groups', () => {
+                let state = BROWSER_INIT_STATE.update('groups', (_groups) =>
+                    _groups.push({ foo: 'bar' }));
+                expect(browser(state, action).get('groups').count()).toBe(3);
+            });
+        });
+        describe('results array is shorter than spec\'s path', () => {
+            it('should not create additional result groups', () => {
+                let group = { foo: 'bar' };
+                let state = BROWSER_INIT_STATE.update('groups', (_groups) =>
+                    _groups.push(...[group, group, group, group]));
+                expect(browser(state, action).get('groups').count()).toBe(4);
+            });
+        });
+        it('should pass the action on to its result groups', () => {
+            spyOn(resultGroupReducer, 'resultGroup');
+            browser(BROWSER_INIT_STATE, action);
+            expect(resultGroupReducer.resultGroup).toHaveBeenCalledTimes(3);
         });
     });
     describe('on KARMA_BROWSER_COMPLETE', () => {

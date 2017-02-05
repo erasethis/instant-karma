@@ -17,6 +17,7 @@ export interface IResultState {
     toJS: () => any;
     update: (key: string, updater: (value: any) => any) => IResultState;
     updateIn: (keyPath: string[], updater: (value: any) => any) => IResultState;
+    withMutations(mutator: (mutable: IResultState) => IResultState): IResultState;
     get(key: 'id'): string;
     get(key: 'parentId'): string;
     get(key: 'icon'): string;
