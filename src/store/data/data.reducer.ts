@@ -1,11 +1,16 @@
 import { Action } from 'flux-standard-action';
 import { Reducer } from 'redux';
 import * as Immutable from 'immutable';
+import { browser, IBrowserState } from './browser.reducer';
 import { session, ISessionState } from './session.reducer';
 import { KARMA_ACTIONS } from '../../services/karma.actions';
 
 export interface IDataState {
+    update: (key: string, updater: (value: any) => any) => IDataState;
+    withMutations(mutator: (mutable: IDataState) => IDataState): IDataState;
+    get(key: 'browser'): IBrowserState;
     get(key: 'session'): ISessionState;
+    set(key: 'browser', browser: IBrowserState);
     set(key: 'session', session: ISessionState);
 };
 
@@ -24,7 +29,9 @@ export const data: Reducer<IDataState> =
         case KARMA_ACTIONS.KARMA_BROWSER_START:
         case KARMA_ACTIONS.KARMA_RUN_COMPLETE:
         case KARMA_ACTIONS.KARMA_SPEC_COMPLETE:
-            return state.set('session', session(state.get('session'), action));
+        return state.withMutations((_state) => _state
+            .update('browser', (_browser) => browser(_browser, action))
+            .update('session', (_session) => session(_session, action)));
         default:
             return state;
     }
