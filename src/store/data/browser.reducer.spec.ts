@@ -10,7 +10,7 @@ import * as Immutable from 'immutable';
 import 'jasmine-expect';
 import { KARMA_ACTIONS } from '../../services/karma.actions';
 import { browser, IBrowserState, BROWSER_INIT_STATE } from './browser.reducer';
-import * as resultGroupReducer from './result-group.reducer';
+import * as resultReducer from './result.reducer';
 
 describe('browser reducer', () => {
     describe('initial state', () => {
@@ -20,8 +20,8 @@ describe('browser reducer', () => {
         it('should have its "name" property set to "undefined"', () => {
             expect(BROWSER_INIT_STATE.get('name')).toBeUndefined();
         });
-        it('should have its "groups" property set to an empty array', () => {
-            expect(BROWSER_INIT_STATE.get('groups').toJS()).toBeEmptyArray();
+        it('should have its "results" property set to an empty array', () => {
+            expect(BROWSER_INIT_STATE.get('results').toJS()).toBeEmptyArray();
         });
         it('should have its "running" property set to "false"', () => {
             expect(BROWSER_INIT_STATE.get('running')).toBeFalse();
@@ -60,12 +60,12 @@ describe('browser reducer', () => {
         it('should set its status to "running"', () => {
             expect(browser(BROWSER_INIT_STATE, action).get('running')).toBeTrue();
         });
-        it('should pass the action on to its result groups', () => {
-            let group = Immutable.fromJS({ foo: 'bar' });
-            let state = BROWSER_INIT_STATE.update('groups', (_groups) => _groups.push(group));
-            spyOn(resultGroupReducer, 'resultGroup');
+        it('should pass the action on to its results', () => {
+            let result = Immutable.fromJS({ foo: 'bar' });
+            let state = BROWSER_INIT_STATE.update('results', (_results) => _results.push(result));
+            spyOn(resultReducer, 'result');
             browser(state, action);
-            expect(resultGroupReducer.resultGroup).toHaveBeenCalledWith(group, action);
+            expect(resultReducer.result).toHaveBeenCalledWith(result, action);
         });
     });
     describe('on KARMA_SPEC_COMPLETE', () => {
@@ -82,31 +82,12 @@ describe('browser reducer', () => {
                 }
             };
         });
-        describe('results array is empty', () => {
-            it('should create a result group for each element in the spec\'s path', () => {
-                expect(browser(BROWSER_INIT_STATE, action).get('groups').count()).toBe(3);
-            });
-        });
-        describe('results array is shorter than spec\'s path', () => {
-            it('should create additional result groups', () => {
-                let group = resultGroupReducer.RESULT_GROUP_INIT_STATE;
-                let state = BROWSER_INIT_STATE.update('groups', (_groups) =>
-                    _groups.push(group));
-                expect(browser(state, action).get('groups').count()).toBe(3);
-            });
-        });
-        describe('results array is longer than spec\'s path', () => {
-            it('should not create additional result groups', () => {
-                let group = resultGroupReducer.RESULT_GROUP_INIT_STATE;
-                let state = BROWSER_INIT_STATE.update('groups', (_groups) =>
-                    _groups.push(...[group, group, group, group]));
-                expect(browser(state, action).get('groups').count()).toBe(4);
-            });
-        });
-        it('should pass an action to each result group', () => {
-            spyOn(resultGroupReducer, 'resultGroup');
-            browser(BROWSER_INIT_STATE, action);
-            expect(resultGroupReducer.resultGroup).toHaveBeenCalledTimes(3);
+        it('should pass the action on to its results', () => {
+            let result = Immutable.fromJS({ foo: 'bar' });
+            let state = BROWSER_INIT_STATE.update('results', (_results) => _results.push(result));
+            spyOn(resultReducer, 'result');
+            browser(state, action);
+            expect(resultReducer.result).toHaveBeenCalledWith(result, action);
         });
     });
     describe('on KARMA_BROWSER_COMPLETE', () => {
