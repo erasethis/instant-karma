@@ -47,7 +47,9 @@ export const browser: Reducer<IBrowserState> =
                     _results.map((_result) => result(_result, action))));
         }
         case KARMA_ACTIONS.KARMA_SPEC_COMPLETE: {
-            return state;
+            return state.withMutations((_state) => _state
+                .update('results', (_results: Immutable.List<IResultState>) =>
+                    _results.map((_result) => result(_result, action))));
         }
         case KARMA_ACTIONS.KARMA_BROWSER_COMPLETE: {
             return state.get('id') === action.payload.browser.id

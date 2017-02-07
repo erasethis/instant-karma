@@ -51,21 +51,35 @@ describe('browser reducer', () => {
                 }
             };
         });
-        it('should set the browser\'s ID', () => {
-            expect(browser(BROWSER_INIT_STATE, action).get('id')).toBe('foo');
+        describe('browser ID is match', () => {
+            let state: IBrowserState;
+            let result: resultReducer.IResultState;
+            beforeEach(() => {
+                result = resultReducer.RESULT_INIT_STATE;
+                state = BROWSER_INIT_STATE.withMutations((_browser) => _browser
+                    .set('id', 'foo')
+                    .set('running', false)
+                    .set('results', Immutable.fromJS([result])));
+            });
+            it('should set its status to "running"', () => {
+                expect(browser(state, action).get('running')).toBeTrue();
+            });
+            it('should pass the action on to its results', () => {
+                spyOn(resultReducer, 'result');
+                browser(state, action);
+                expect(resultReducer.result).toHaveBeenCalledWith(result, action);
+            });
         });
-        it('should set the browser\'s name', () => {
-            expect(browser(BROWSER_INIT_STATE, action).get('name')).toBe('bar');
-        });
-        it('should set its status to "running"', () => {
-            expect(browser(BROWSER_INIT_STATE, action).get('running')).toBeTrue();
-        });
-        it('should pass the action on to its results', () => {
-            let result = Immutable.fromJS({ foo: 'bar' });
-            let state = BROWSER_INIT_STATE.update('results', (_results) => _results.push(result));
-            spyOn(resultReducer, 'result');
-            browser(state, action);
-            expect(resultReducer.result).toHaveBeenCalledWith(result, action);
+        describe('browser ID is no match', () => {
+            it('should set the browser\'s ID', () => {
+                expect(browser(BROWSER_INIT_STATE, action).get('id')).toBe('foo');
+            });
+            it('should set the browser\'s name', () => {
+                expect(browser(BROWSER_INIT_STATE, action).get('name')).toBe('bar');
+            });
+            it('should set its status to "running"', () => {
+                expect(browser(BROWSER_INIT_STATE, action).get('running')).toBeTrue();
+            });
         });
     });
     describe('on KARMA_SPEC_COMPLETE', () => {
