@@ -39,9 +39,9 @@ export const browser: Reducer<IBrowserState> =
     (state: IBrowserState = BROWSER_INIT_STATE, action: Action<any> = VOID): IBrowserState => {
     switch (action.type) {
         case KARMA_ACTIONS.KARMA_BROWSER_START: {
-            let id = state.get('id');
-            if (id) {
-                if (id !== action.payload.browser.id) {
+            let browserId = state.get('id');
+            if (browserId) {
+                if (browserId !== action.payload.browser.id) {
                     return state;
                 }
             } else {
@@ -67,7 +67,3 @@ export const browser: Reducer<IBrowserState> =
             return state;
     }
 };
-
-function getId(path: string[], index: number): string {
-    return index > 0 ? md5(path.slice(0, index).join('|')) : null;
-}

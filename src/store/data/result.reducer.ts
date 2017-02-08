@@ -61,8 +61,10 @@ export const result: Reducer<IResultState> =
             return state.update('status', (_status) => ResultStatus.Pending);
         }
         case KARMA_ACTIONS.KARMA_SPEC_COMPLETE: {
-            let idFromAction = computeId(action);
+            let _result = action.payload.result;
+            let idFromAction = getId(_result.suite, _result.id);
             let id = state.get('id');
+
             if (id) {
                 if (idFromAction !== id) {
                     return state;
@@ -70,20 +72,16 @@ export const result: Reducer<IResultState> =
             } else {
                 state = state.set('id', idFromAction);
             }
-            if (action.payload.result.suite && action.payload.result.suite.length > 0) {
-                state = state.withMutations((_state) => _state
-                    .set('description', action.payload.result.suite[0])
-                    .set('icon', 'layers'));
-            } else {
-                state = state.withMutations((_state) => _state
-                    .set('description', action.payload.result.description)
-                    .set('icon', 'colorize'));
-            }
-            if (action.payload.result.success) {
+
+            state = state.withMutations((_state) => _state
+                .set('description', getDescription(_result.suite, _result.description))
+                .set('icon', getIcon(_result.suite)));
+
+            if (_result.success) {
                 state = state.set('status', ResultStatus.Success);
             }
-            if (action.payload.result.log) {
-                state = state.set('log', Immutable.fromJS(action.payload.result.log));
+            if (_result.log) {
+                state = state.set('log', Immutable.fromJS(_result.log));
             }
 
         }
@@ -92,9 +90,24 @@ export const result: Reducer<IResultState> =
     }
 };
 
-function computeId(action: Action<any>) {
-    let _result = action.payload.result;
-    return _result.suite
-        ? md5([..._result.suite, _result.id].join('|'))
-        : md5(_result.id);
+function getId(path: string[], specId: string): string {
+    return path && path.length > 0
+        ? md5([...path, specId].join('|'))
+        : md5(specId);
+}
+
+function getDescription(path: string[], description: string): string {
+    return path && path.length > 0
+        ? path[0]
+        : description;
+}
+
+function getIcon(path: string[]): string {
+    return path && path.length > 0
+        ? 'layers'
+        : 'colorize';
+}
+
+function createOrUpdateResult(state: IResultState, action: Action<any>) {
+    let _result;
 }
