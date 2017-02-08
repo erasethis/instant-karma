@@ -51,6 +51,17 @@ describe('browser reducer', () => {
                 }
             };
         });
+        describe('browser ID is undefined', () => {
+            it('should set the browser\'s ID', () => {
+                expect(browser(BROWSER_INIT_STATE, action).get('id')).toBe('foo');
+            });
+            it('should set the browser\'s name', () => {
+                expect(browser(BROWSER_INIT_STATE, action).get('name')).toBe('bar');
+            });
+            it('should set its status to "running"', () => {
+                expect(browser(BROWSER_INIT_STATE, action).get('running')).toBeTrue();
+            });
+        });
         describe('browser ID is match', () => {
             let state: IBrowserState;
             let result: resultReducer.IResultState;
@@ -71,19 +82,18 @@ describe('browser reducer', () => {
             });
         });
         describe('browser ID is no match', () => {
-            it('should set the browser\'s ID', () => {
-                expect(browser(BROWSER_INIT_STATE, action).get('id')).toBe('foo');
+            let state: IBrowserState;
+            beforeEach(() => {
+                state = BROWSER_INIT_STATE.withMutations((_browser) => _browser
+                    .set('id', 'bar'));
             });
-            it('should set the browser\'s name', () => {
-                expect(browser(BROWSER_INIT_STATE, action).get('name')).toBe('bar');
-            });
-            it('should set its status to "running"', () => {
-                expect(browser(BROWSER_INIT_STATE, action).get('running')).toBeTrue();
+            it('should return the unmodified state', () => {
+                expect(browser(state, action)).toBe(state);
             });
         });
     });
     describe('on KARMA_SPEC_COMPLETE', () => {
-        let action: Action<any>;
+        let action: any;
         beforeEach(() => {
             action = {
                 type: KARMA_ACTIONS.KARMA_SPEC_COMPLETE,
@@ -96,7 +106,7 @@ describe('browser reducer', () => {
                 }
             };
         });
-        it('should pass the action on to its results', () => {
+        it(`should pass the action on to its results`, () => {
             let result = Immutable.fromJS({ foo: 'bar' });
             let state = BROWSER_INIT_STATE.update('results', (_results) => _results.push(result));
             spyOn(resultReducer, 'result');

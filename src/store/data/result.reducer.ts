@@ -20,6 +20,7 @@ export interface IResultState {
     withMutations(mutator: (mutable: IResultState) => IResultState): IResultState;
     get(key: 'id'): string;
     get(key: 'parentId'): string;
+    get(key: 'results'): Immutable.List<IResultState>;
     get(key: 'icon'): string;
     get(key: 'description'): string;
     get(key: 'status'): ResultStatus;
@@ -28,6 +29,7 @@ export interface IResultState {
     get(key: 'selected'): boolean;
     set(key: 'id', id: string);
     set(key: 'parentId', parentId: string);
+    set(key: 'results', results: Immutable.List<IResultState>);
     set(key: 'icon', icon: string);
     set(key: 'description', description: string);
     set(key: 'status', status: ResultStatus);
@@ -38,7 +40,7 @@ export interface IResultState {
 
 export const RESULT_INIT_STATE: IResultState = Immutable.fromJS({
     id: undefined,
-    parentId: undefined,
+    results: [],
     icon: undefined,
     description: undefined,
     status: ResultStatus.None,
@@ -58,15 +60,41 @@ export const result: Reducer<IResultState> =
         case KARMA_ACTIONS.KARMA_BROWSER_START: {
             return state.update('status', (_status) => ResultStatus.Pending);
         }
-        case RESULT_ACTIONS.RESULT_ADD_OR_UPDATE: {
-            return state.withMutations((_state) => _state
-                .set('id', action.payload.id)
-                .set('parentId', action.payload.parentId)
-                .set('icon', action.payload.icon)
-                .set('description', action.payload.description)
-            );
+        case KARMA_ACTIONS.KARMA_SPEC_COMPLETE: {
+            let idFromAction = computeId(action);
+            let id = state.get('id');
+            if (id) {
+                if (idFromAction !== id) {
+                    return state;
+                }
+            } else {
+                state = state.set('id', idFromAction);
+            }
+            if (action.payload.result.suite && action.payload.result.suite.length > 0) {
+                state = state.withMutations((_state) => _state
+                    .set('description', action.payload.result.suite[0])
+                    .set('icon', 'layers'));
+            } else {
+                state = state.withMutations((_state) => _state
+                    .set('description', action.payload.result.description)
+                    .set('icon', 'colorize'));
+            }
+            if (action.payload.result.success) {
+                state = state.set('status', ResultStatus.Success);
+            }
+            if (action.payload.result.log) {
+                state = state.set('log', Immutable.fromJS(action.payload.result.log));
+            }
+
         }
         default:
             return state;
     }
 };
+
+function computeId(action: Action<any>) {
+    let _result = action.payload.result;
+    return _result.suite
+        ? md5([..._result.suite, _result.id].join('|'))
+        : md5(_result.id);
+}

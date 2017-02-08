@@ -8,6 +8,7 @@ import {
 import { Action } from 'flux-standard-action';
 import * as Immutable from 'immutable';
 import 'jasmine-expect';
+import * as md5 from 'md5-hex';
 import { KARMA_ACTIONS, RESULT_ACTIONS } from '../../services';
 import { result, IResultState, RESULT_INIT_STATE, ResultStatus } from './result.reducer';
 
@@ -50,30 +51,65 @@ describe('result reducer', () => {
             }).get('status')).toBe(ResultStatus.Pending);
         });
     });
-    describe('on RESULT_ADD_OR_UPDATE', () => {
-        let action: Action<any>;
+    describe('on KARMA_SPEC_COMPLETE', () => {
+        let action: any;
         beforeEach(() => {
             action = {
-               type: RESULT_ACTIONS.RESULT_ADD_OR_UPDATE,
+                type: KARMA_ACTIONS.KARMA_SPEC_COMPLETE,
                 payload: {
-                    id: 'foo',
-                    parentId: 'bar',
-                    icon: 'foo-icon',
-                    description: 'foo-description'
+                    result: {
+                        id: 'spec42',
+                        description: 'foo'
+                    }
+                },
+                meta: {
+                    parentId: 'bar'
                 }
             };
         });
-        it('should set the "id" property', () => {
-            expect(result(RESULT_INIT_STATE, action).get('id')).toBe('foo');
+        describe('result ID is undefined', () => {
+            it('should compute its own ID correctly', () => {
+                let suite = ['foo1', 'foo2', 'foo3'];
+                let id = md5([...suite, action.payload.result.id].join('|'));
+                action.payload.result.suite = suite;
+                expect(result(RESULT_INIT_STATE, action).get('id')).toEqual(id);
+            });
+            describe('path is empty', () => {
+                beforeEach(() => {
+                    action.payload.result.suite = [];
+                });
+                it('should set its "description" property to the spec\'s description', () => {
+                    expect(result(RESULT_INIT_STATE, action).get('description'))
+                        .toEqual(action.payload.result.description);
+                });
+                it('should set its "icon" property to "colorize"', () => {
+                    expect(result(RESULT_INIT_STATE, action).get('icon')).toEqual('colorize');
+                });
+            });
+            describe('path is not empty', () => {
+                beforeEach(() => {
+                    action.payload.result.suite = ['foo1', 'foo2', 'foo3'];
+                });
+                it('should set its "icon" property to "layers"', () => {
+                    expect(result(RESULT_INIT_STATE, action).get('icon')).toEqual('layers');
+                });
+                it('should set its "description" property to the first path element', () => {
+                    expect(result(RESULT_INIT_STATE, action).get('description'))
+                        .toEqual(action.payload.result.suite[0]);
+                });
+            });
         });
-        it('should set the "parentId" property', () => {
-            expect(result(RESULT_INIT_STATE, action).get('parentId')).toBe('bar');
+        describe('spec successful', () => {
+            it('should set its "status" property to "Success"', () => {
+                action.payload.result.success = true;
+                expect(result(RESULT_INIT_STATE, action).get('status'))
+                    .toEqual(ResultStatus.Success);
+            });
         });
-        it('should set the "icon" property', () => {
-            expect(result(RESULT_INIT_STATE, action).get('icon')).toBe('foo-icon');
-        });
-        it('should set the "description" property', () => {
-            expect(result(RESULT_INIT_STATE, action).get('description')).toBe('foo-description');
+        it('should set its "log" property', () => {
+            action.payload.result.log = ['foo'];
+            expect(result(RESULT_INIT_STATE, action).get('log'))
+                .toEqual(Immutable.fromJS(['foo']));
         });
     });
 });

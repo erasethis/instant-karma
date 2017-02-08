@@ -39,9 +39,17 @@ export const browser: Reducer<IBrowserState> =
     (state: IBrowserState = BROWSER_INIT_STATE, action: Action<any> = VOID): IBrowserState => {
     switch (action.type) {
         case KARMA_ACTIONS.KARMA_BROWSER_START: {
+            let id = state.get('id');
+            if (id) {
+                if (id !== action.payload.browser.id) {
+                    return state;
+                }
+            } else {
+                state = state.withMutations((_state) => _state
+                    .set('id', action.payload.browser.id)
+                    .set('name', action.payload.browser.name));
+            }
             return state.withMutations((_state) => _state
-                .set('id', action.payload.browser.id)
-                .set('name', action.payload.browser.name)
                 .set('running', true)
                 .update('results', (_results: Immutable.List<IResultState>) =>
                     _results.map((_result) => result(_result, action))));
