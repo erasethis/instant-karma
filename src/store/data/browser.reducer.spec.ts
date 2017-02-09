@@ -8,7 +8,8 @@ import {
 import { Action } from 'flux-standard-action';
 import * as Immutable from 'immutable';
 import 'jasmine-expect';
-import { KARMA_ACTIONS } from '../../services/karma.actions';
+import * as md5 from 'md5-hex';
+import { KARMA_ACTIONS, RESULT_ACTIONS } from '../../services';
 import { browser, IBrowserState, BROWSER_INIT_STATE } from './browser.reducer';
 import * as resultReducer from './result.reducer';
 
@@ -75,10 +76,16 @@ describe('browser reducer', () => {
             it('should set its status to "running"', () => {
                 expect(browser(state, action).get('running')).toBeTrue();
             });
-            it('should pass the action on to its results', () => {
+            it('should set the status of its results to "Pending"', () => {
                 spyOn(resultReducer, 'result');
                 browser(state, action);
-                expect(resultReducer.result).toHaveBeenCalledWith(result, action);
+                expect(resultReducer.result).toHaveBeenCalledWith(result, {
+                    type: RESULT_ACTIONS.RESULT_UPDATE_RESULT,
+                    payload: {
+                        status: resultReducer.ResultStatus.Pending,
+                        log: []
+                    }
+                });
             });
         });
         describe('browser ID is no match', () => {
@@ -106,12 +113,33 @@ describe('browser reducer', () => {
                 }
             };
         });
-        it(`should pass the action on to its results`, () => {
-            let result = Immutable.fromJS({ foo: 'bar' });
-            let state = BROWSER_INIT_STATE.update('results', (_results) => _results.push(result));
-            spyOn(resultReducer, 'result');
-            browser(state, action);
-            expect(resultReducer.result).toHaveBeenCalledWith(result, action);
+        describe('result with that ID doesn\'t exist yet', () => {
+            it('should create a result with that ID', () => {
+                expect(browser(BROWSER_INIT_STATE, action).getIn(['results', 0, 'id']))
+                    .toEqual(md5([...action.payload.result.suite,
+                        action.payload.result.description]));
+            });
+        });
+        describe('result with that ID already exists', () => {
+            let state;
+            beforeEach(() =>{
+                state = BROWSER_INIT_STATE.set('results', Immutable.fromJS([{
+                    id: md5([...action.payload.result.suite,
+                        action.payload.result.description])
+                }]));
+            });
+            it('should not create another result', () => {
+                spyOn(resultReducer, 'result');
+                browser(state, action);
+                expect(resultReducer.result).not.toHaveBeenCalledWith(jasmine.any(Object),
+                    jasmine.objectContaining({ type: RESULT_ACTIONS.RESULT_NEW_RESULT }));
+            });
+            it('should update that result', () => {
+                spyOn(resultReducer, 'result');
+                browser(state, action);
+                expect(resultReducer.result).toHaveBeenCalledWith(state.get('results').first(),
+                    jasmine.objectContaining({ type: RESULT_ACTIONS.RESULT_UPDATE_RESULT }));
+            });
         });
     });
     describe('on KARMA_BROWSER_COMPLETE', () => {

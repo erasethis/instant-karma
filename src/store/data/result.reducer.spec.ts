@@ -51,65 +51,56 @@ describe('result reducer', () => {
             }).get('status')).toBe(ResultStatus.Pending);
         });
     });
-    describe('on KARMA_SPEC_COMPLETE', () => {
-        let action: any;
+    describe('on RESULT_NEW_RESULT', () => {
+        let action: Action<any>;
         beforeEach(() => {
             action = {
-                type: KARMA_ACTIONS.KARMA_SPEC_COMPLETE,
+                type: RESULT_ACTIONS.RESULT_NEW_RESULT,
                 payload: {
-                    result: {
-                        id: 'spec42',
-                        description: 'foo'
-                    }
-                },
-                meta: {
-                    parentId: 'bar'
+                    id: 'foo',
+                    icon: 'bar',
+                    description: 'foobar'
                 }
             };
         });
-        describe('result ID is undefined', () => {
-            it('should compute its own ID correctly', () => {
-                let suite = ['foo1', 'foo2', 'foo3'];
-                let id = md5([...suite, action.payload.result.id].join('|'));
-                action.payload.result.suite = suite;
-                expect(result(RESULT_INIT_STATE, action).get('id')).toEqual(id);
-            });
-            describe('path is empty', () => {
-                beforeEach(() => {
-                    action.payload.result.suite = [];
-                });
-                it('should set its "description" property to the spec\'s description', () => {
-                    expect(result(RESULT_INIT_STATE, action).get('description'))
-                        .toEqual(action.payload.result.description);
-                });
-                it('should set its "icon" property to "colorize"', () => {
-                    expect(result(RESULT_INIT_STATE, action).get('icon')).toEqual('colorize');
-                });
-            });
-            describe('path is not empty', () => {
-                beforeEach(() => {
-                    action.payload.result.suite = ['foo1', 'foo2', 'foo3'];
-                });
-                it('should set its "icon" property to "layers"', () => {
-                    expect(result(RESULT_INIT_STATE, action).get('icon')).toEqual('layers');
-                });
-                it('should set its "description" property to the first path element', () => {
-                    expect(result(RESULT_INIT_STATE, action).get('description'))
-                        .toEqual(action.payload.result.suite[0]);
-                });
+        it('should set its "id" property', () => {
+            expect(result(RESULT_INIT_STATE, action).get('id'))
+                .toEqual('foo');
+        });
+        it('should set its "icon" property', () => {
+            expect(result(RESULT_INIT_STATE, action).get('icon'))
+                .toEqual('bar');
+        });
+        it('should set its "description" property"', () => {
+            expect(result(RESULT_INIT_STATE, action).get('description'))
+                .toEqual('foobar');
+        });
+    });
+    describe('on RESULT_UPDATE_RESULT', () => {
+        let action: Action<any>;
+        let state;
+        beforeEach(() => {
+            action = {
+                type: RESULT_ACTIONS.RESULT_UPDATE_RESULT,
+                payload: {
+                    status: ResultStatus.Success,
+                    log: ['foo', 'bar']
+                }
+            };
+            state = result(RESULT_INIT_STATE, {
+                type: RESULT_ACTIONS.RESULT_NEW_RESULT,
+                payload: {
+                    id: 'foo'
+                }
             });
         });
-        describe('spec successful', () => {
-            it('should set its "status" property to "Success"', () => {
-                action.payload.result.success = true;
-                expect(result(RESULT_INIT_STATE, action).get('status'))
-                    .toEqual(ResultStatus.Success);
-            });
+        it('should set its "status" property', () => {
+            expect(result(state, action).get('status'))
+                .toEqual(ResultStatus.Success);
         });
         it('should set its "log" property', () => {
-            action.payload.result.log = ['foo'];
-            expect(result(RESULT_INIT_STATE, action).get('log'))
-                .toEqual(Immutable.fromJS(['foo']));
+            expect(result(state, action).get('log'))
+                .toEqual(Immutable.fromJS(['foo', 'bar']));
         });
     });
 });

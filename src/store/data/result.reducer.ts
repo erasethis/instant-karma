@@ -60,30 +60,16 @@ export const result: Reducer<IResultState> =
         case KARMA_ACTIONS.KARMA_BROWSER_START: {
             return state.update('status', (_status) => ResultStatus.Pending);
         }
-        case KARMA_ACTIONS.KARMA_SPEC_COMPLETE: {
-            let _result = action.payload.result;
-            let idFromAction = getId(_result.suite, _result.id);
-            let id = state.get('id');
-
-            if (id) {
-                if (idFromAction !== id) {
-                    return state;
-                }
-            } else {
-                state = state.set('id', idFromAction);
-            }
-
-            state = state.withMutations((_state) => _state
-                .set('description', getDescription(_result.suite, _result.description))
-                .set('icon', getIcon(_result.suite)));
-
-            if (_result.success) {
-                state = state.set('status', ResultStatus.Success);
-            }
-            if (_result.log) {
-                state = state.set('log', Immutable.fromJS(_result.log));
-            }
-
+        case RESULT_ACTIONS.RESULT_NEW_RESULT: {
+            return state.withMutations((_state) => _state
+                .set('id', action.payload.id)
+                .set('icon', action.payload.icon)
+                .set('description', action.payload.description));
+        }
+        case RESULT_ACTIONS.RESULT_UPDATE_RESULT: {
+            return state.withMutations((_state) => _state
+                .set('status', action.payload.status)
+                .set('log', Immutable.fromJS(action.payload.log)));
         }
         default:
             return state;
