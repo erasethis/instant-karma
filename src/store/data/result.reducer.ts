@@ -60,40 +60,25 @@ export const result: Reducer<IResultState> =
         case KARMA_ACTIONS.KARMA_BROWSER_START: {
             return state.update('status', (_status) => ResultStatus.Pending);
         }
-        case RESULT_ACTIONS.RESULT_NEW_RESULT: {
+        case KARMA_ACTIONS.KARMA_SPEC_COMPLETE: {
+            let _result = action.payload.result;
             return state.withMutations((_state) => _state
-                .set('id', action.payload.id)
-                .set('icon', action.payload.icon)
-                .set('description', action.payload.description));
-        }
-        case RESULT_ACTIONS.RESULT_UPDATE_RESULT: {
-            return state.withMutations((_state) => _state
-                .set('status', action.payload.status)
-                .set('log', Immutable.fromJS(action.payload.log)));
+                .set('id', _result.id)
+                .set('description', _result.description)
+                .set('status', getStatus(_result))
+                .set('log', Immutable.fromJS(_result.log)));
         }
         default:
             return state;
     }
 };
 
-function getId(path: string[], specId: string): string {
-    return path && path.length > 0
-        ? md5([...path, specId].join('|'))
-        : md5(specId);
-}
-
-function getDescription(path: string[], description: string): string {
-    return path && path.length > 0
-        ? path[0]
-        : description;
-}
-
-function getIcon(path: string[]): string {
-    return path && path.length > 0
-        ? 'layers'
-        : 'colorize';
-}
-
-function createOrUpdateResult(state: IResultState, action: Action<any>) {
-    let _result;
+function getStatus(_result: any): ResultStatus {
+    if (_result.success) {
+        return ResultStatus.Success;
+    }
+    if (_result.failed) {
+        return ResultStatus.Failed;
+    }
+    return ResultStatus.None;
 }

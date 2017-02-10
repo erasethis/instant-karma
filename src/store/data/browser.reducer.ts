@@ -62,33 +62,12 @@ export const browser: Reducer<IBrowserState> =
                     }))));
         }
         case KARMA_ACTIONS.KARMA_SPEC_COMPLETE: {
-            let specResult = action.payload.result;
-            let specPath = [...specResult.suite, specResult.description];
-            return state.update('results', (_results) => {
-                let id = md5(specPath);
-                let index = _results.findIndex((_result) => _result.get('id') === id);
-                if (index >= 0) {
-                    return _results.update(index, (_result) =>
-                        result(_result, {
-                            type: RESULT_ACTIONS.RESULT_UPDATE_RESULT,
-                            payload: {
-                                status: specResult.success
-                                    ? ResultStatus.Success
-                                    : ResultStatus.Failed,
-                                log: specResult.log
-                            }
-                        }));
-                }
-                return _results.push(result(RESULT_INIT_STATE, {
-                    type: RESULT_ACTIONS.RESULT_NEW_RESULT,
-                    payload: {
-                        id,
-                        icon: specPath.length > 1
-                            ? 'layers' : 'colorize',
-                        description: specPath.shift()
-                    }
-                }));
-            });
+            let index = state.get('results').findIndex((_result) =>
+                _result.get('id') === action.payload.result.id);
+            return state.update('results', (_results) =>
+                index >= 0
+                    ? _results.update(index, (_result) => result(_result, action))
+                    : _results.push(result(RESULT_INIT_STATE, action)));
         }
         case KARMA_ACTIONS.KARMA_BROWSER_COMPLETE: {
             return state.get('id') === action.payload.browser.id

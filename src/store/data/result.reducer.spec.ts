@@ -51,56 +51,49 @@ describe('result reducer', () => {
             }).get('status')).toBe(ResultStatus.Pending);
         });
     });
-    describe('on RESULT_NEW_RESULT', () => {
+    describe('on KARMA_SPEC_COMPLETE', () => {
         let action: Action<any>;
         beforeEach(() => {
             action = {
-                type: RESULT_ACTIONS.RESULT_NEW_RESULT,
+                type: KARMA_ACTIONS.KARMA_SPEC_COMPLETE,
                 payload: {
-                    id: 'foo',
-                    icon: 'bar',
-                    description: 'foobar'
+                    result: {
+                        id: 'spec42',
+                        description: 'foobar'
+                    }
                 }
             };
         });
         it('should set its "id" property', () => {
             expect(result(RESULT_INIT_STATE, action).get('id'))
-                .toEqual('foo');
-        });
-        it('should set its "icon" property', () => {
-            expect(result(RESULT_INIT_STATE, action).get('icon'))
-                .toEqual('bar');
+                .toEqual('spec42');
         });
         it('should set its "description" property"', () => {
             expect(result(RESULT_INIT_STATE, action).get('description'))
                 .toEqual('foobar');
         });
-    });
-    describe('on RESULT_UPDATE_RESULT', () => {
-        let action: Action<any>;
-        let state;
-        beforeEach(() => {
-            action = {
-                type: RESULT_ACTIONS.RESULT_UPDATE_RESULT,
-                payload: {
-                    status: ResultStatus.Success,
-                    log: ['foo', 'bar']
-                }
-            };
-            state = result(RESULT_INIT_STATE, {
-                type: RESULT_ACTIONS.RESULT_NEW_RESULT,
-                payload: {
-                    id: 'foo'
-                }
+        describe('spec successful', () => {
+            beforeEach(() => {
+                action.payload.result.success = true;
+            });
+            it('should set its "status" property to "Success"', () => {
+                expect(result(RESULT_INIT_STATE, action).get('status'))
+                    .toEqual(ResultStatus.Success);
             });
         });
-        it('should set its "status" property', () => {
-            expect(result(state, action).get('status'))
-                .toEqual(ResultStatus.Success);
-        });
-        it('should set its "log" property', () => {
-            expect(result(state, action).get('log'))
-                .toEqual(Immutable.fromJS(['foo', 'bar']));
+        describe('spec failed', () => {
+            beforeEach(() => {
+                action.payload.result.failed = true;
+            });
+            it('should set its "status" property to "Failed"', () => {
+                expect(result(RESULT_INIT_STATE, action).get('status'))
+                    .toEqual(ResultStatus.Failed);
+            });
+            it('should set its "log" property', () => {
+                action.payload.result.log = ['foo'];
+                expect(result(RESULT_INIT_STATE, action).get('log'))
+                    .toEqual(Immutable.fromJS(['foo']));
+            });
         });
     });
 });

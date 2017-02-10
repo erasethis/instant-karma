@@ -106,39 +106,26 @@ describe('browser reducer', () => {
                 type: KARMA_ACTIONS.KARMA_SPEC_COMPLETE,
                 payload: {
                     result: {
-                        description: 'bar',
-                        suite: ['foo1', 'foo2', 'foo3'],
-                        success: true
+                        id: 'spec42'
                     }
                 }
             };
         });
-        describe('result with that ID doesn\'t exist yet', () => {
-            it('should create a result with that ID', () => {
-                expect(browser(BROWSER_INIT_STATE, action).getIn(['results', 0, 'id']))
-                    .toEqual(md5([...action.payload.result.suite,
-                        action.payload.result.description]));
+        describe('result doesn\'t exist yet', () => {
+            it('should create the result', () => {
+                expect(browser(BROWSER_INIT_STATE, action).get('results').count())
+                    .toBe(1);
             });
         });
-        describe('result with that ID already exists', () => {
-            let state;
-            beforeEach(() =>{
-                state = BROWSER_INIT_STATE.set('results', Immutable.fromJS([{
-                    id: md5([...action.payload.result.suite,
-                        action.payload.result.description])
+        describe('result already exists', () => {
+            it('should pass the action on to the result', () => {
+                let state = BROWSER_INIT_STATE.set('results', Immutable.fromJS([{
+                    id: 'spec42'
                 }]));
-            });
-            it('should not create another result', () => {
-                spyOn(resultReducer, 'result');
-                browser(state, action);
-                expect(resultReducer.result).not.toHaveBeenCalledWith(jasmine.any(Object),
-                    jasmine.objectContaining({ type: RESULT_ACTIONS.RESULT_NEW_RESULT }));
-            });
-            it('should update that result', () => {
                 spyOn(resultReducer, 'result');
                 browser(state, action);
                 expect(resultReducer.result).toHaveBeenCalledWith(state.get('results').first(),
-                    jasmine.objectContaining({ type: RESULT_ACTIONS.RESULT_UPDATE_RESULT }));
+                    action);
             });
         });
     });
