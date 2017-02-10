@@ -19,19 +19,15 @@ export interface IResultState {
     updateIn: (keyPath: string[], updater: (value: any) => any) => IResultState;
     withMutations(mutator: (mutable: IResultState) => IResultState): IResultState;
     get(key: 'id'): string;
-    get(key: 'parentId'): string;
-    get(key: 'results'): Immutable.List<IResultState>;
-    get(key: 'icon'): string;
     get(key: 'description'): string;
+    get(key: 'suite'): Immutable.List<string>;
     get(key: 'status'): ResultStatus;
     get(key: 'log'): Immutable.List<string>;
     get(key: 'visible'): boolean;
     get(key: 'selected'): boolean;
     set(key: 'id', id: string);
-    set(key: 'parentId', parentId: string);
-    set(key: 'results', results: Immutable.List<IResultState>);
-    set(key: 'icon', icon: string);
     set(key: 'description', description: string);
+    set(key: 'suite', suite: Immutable.List<string>);
     set(key: 'status', status: ResultStatus);
     set(key: 'log', log: Immutable.List<string>);
     set(key: 'visible', visible: boolean);
@@ -40,9 +36,8 @@ export interface IResultState {
 
 export const RESULT_INIT_STATE: IResultState = Immutable.fromJS({
     id: undefined,
-    results: [],
-    icon: undefined,
     description: undefined,
+    suite: [],
     status: ResultStatus.None,
     log: [],
     visible: false,

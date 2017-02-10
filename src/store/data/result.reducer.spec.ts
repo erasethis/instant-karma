@@ -17,14 +17,11 @@ describe('result reducer', () => {
         it('should have its "id" property set to "undefined"', () => {
             expect(RESULT_INIT_STATE.get('id')).toBeUndefined();
         });
-        it('should have its "parentId" property set to "undefined"', () => {
-            expect(RESULT_INIT_STATE.get('parentId')).toBeUndefined();
-        });
-        it('should have its "icon" property set to "undefined"', () => {
-            expect(RESULT_INIT_STATE.get('icon')).toBeUndefined();
-        });
         it('should have its "description" property set to "undefined"', () => {
             expect(RESULT_INIT_STATE.get('description')).toBeUndefined();
+        });
+        it('should have its "suite" property set to an empty array', () => {
+            expect(RESULT_INIT_STATE.get('suite').toJS()).toBeEmptyArray();
         });
         it('should have its "status" property set to "None"', () => {
             expect(RESULT_INIT_STATE.get('status')).toBe(ResultStatus.None);
