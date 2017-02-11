@@ -23,8 +23,8 @@ import { BrowserComponent } from './home/browser.component';
 import { HomeComponent } from './home';
 
 import {
-    ExplorerComponent,
-    ResultDetailsComponent,
+    ResultsExplorerComponent,
+    ResultPreviewComponent,
     ResultPreviewHeaderComponent,
     ResultPreviewLogComponent,
     ResultsComponent
@@ -47,9 +47,9 @@ declare var window: {
         AppComponent,
         BrowserComponent,
         //AboutComponent,
-        ExplorerComponent,
+        ResultsExplorerComponent,
         HomeComponent,
-        ResultDetailsComponent,
+        ResultPreviewComponent,
         ResultPreviewHeaderComponent,
         ResultPreviewLogComponent,
         ResultsComponent

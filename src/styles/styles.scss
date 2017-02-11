@@ -75,3 +75,21 @@ md-nav-list md-list-item [md-line]:nth-child(n+2) {
     background: rgba(255, 255, 255, 0.4);
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
 }
+
+/* md-nav-tab */
+
+nav {
+    margin-top: 0;
+
+    a {
+        background-color: transparent;
+        margin: 0;
+        font-family: "Segoe UI", Frutiger,"Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif !important;
+        font-weight: normal !important;
+        border-radius: 0 !important;
+    }
+
+    a[ng-reflect-active] {
+        background-color: rgba(248, 187, 208, 0.3);
+    }
+}

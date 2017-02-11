@@ -7,11 +7,11 @@ import { IBrowserState, IResultState } from '../../store/data';
 import { IResult } from './result.model';
 
 @Component({
-    selector: 'ink-result-details',
-    templateUrl: './result-details.component.html',
-    styleUrls: ['./result-details.component.scss']
+    selector: 'ink-result-preview',
+    templateUrl: './result-preview.component.html',
+    styleUrls: ['./result-preview.component.scss']
 })
-export class ResultDetailsComponent {
+export class ResultPreviewComponent {
     public result: Observable<IResult>;
 
     @select(['data', 'run', 'browsers'])
@@ -22,10 +22,10 @@ export class ResultDetailsComponent {
 
     constructor(route: ActivatedRoute) {
         let browserId = route.parent.params.map((_params) =>
-            _params['browserId']).distinctUntilChanged();
+            _params['id']).distinctUntilChanged();
 
         let specId = route.params.map((_params) =>
-            _params['specId']).distinctUntilChanged();
+            _params['id']).distinctUntilChanged();
 
         this.result = Observable.combineLatest(this.browsers, browserId, specId,
             (_browsers, _browserId, _specId) => ({ _browsers, _browserId, _specId })).map((c) => {
