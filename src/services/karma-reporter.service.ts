@@ -37,7 +37,7 @@ export class KarmaReporter {
                     });
                     break;
                 case 'spec-complete':
-                console.log(data)
+                // console.log(data)
                     this.ngRedux.dispatch({
                         type: KARMA_ACTIONS.KARMA_SPEC_COMPLETE,
                         payload: {
@@ -48,6 +48,7 @@ export class KarmaReporter {
                     });
                     break;
                 case 'browser-complete':
+                console.log('browser-complete', data)
                     this.ngRedux.dispatch({
                         type: KARMA_ACTIONS.KARMA_BROWSER_COMPLETE,
                         payload: {
@@ -56,6 +57,7 @@ export class KarmaReporter {
                     });
                     break;
                 case 'run-complete':
+                console.log('run-complete', data)
                     this.ngRedux.dispatch({
                         type: KARMA_ACTIONS.KARMA_RUN_COMPLETE,
                         payload: {

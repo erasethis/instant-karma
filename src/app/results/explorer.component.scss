@@ -11,10 +11,6 @@
     padding: 16px 8px;
     margin: 4px;
 
-    &.ink-active-item {
-        background: rgba(64, 128, 255, .2);
-    }
-
     a {
         font-family: "Segoe UI", Frutiger,"Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif;
         font-size: 10px;
@@ -44,6 +40,14 @@
             display: -webkit-box;
             -webkit-box-orient: vertical;
             overflow: hidden;
+        }
+    }
+
+    &.ink-active-item {
+        background: rgba(248, 187, 208, 0.3);
+
+        a {
+            color: white;
         }
     }
 }
