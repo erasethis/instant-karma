@@ -1,8 +1,10 @@
-<div class="ink-item" *ngFor="let result of results;trackBy: trackBySpecId">
+<div class="ink-item"
+    *ngFor="let result of results;trackBy: trackBySpecId"
+    routerLinkActive="ink-active-item">
     <a [routerLink]="[result.id]">
         <md-icon svgIcon="flask" 
             [ngClass]="{ 'ink-failed': (result.status === 2), 'ink-pending': result.status === 4, 'ink-success': result.status === 6 }">
         </md-icon>
-        <div>{{result.description}}</div>
+        <div class="ink-item-title">{{result.description}}</div>
     </a>
 </div>

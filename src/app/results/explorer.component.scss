@@ -8,7 +8,12 @@
     width: 100px;
     max-width: 100px;
     height: 80px;
-    margin: 16px 8px;
+    padding: 16px 8px;
+    margin: 4px;
+
+    &.ink-active-item {
+        background: rgba(64, 128, 255, .2);
+    }
 
     a {
         font-family: "Segoe UI", Frutiger,"Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif;
@@ -20,7 +25,8 @@
         md-icon {
             height: 48px;
             width: 48px;
-            margin: 8px 20px;
+            display: block;
+            margin: 8px auto;
             color: #ffd600;
 
             &.ink-failed {
@@ -30,6 +36,14 @@
             &.ink-success {
                 color: #00c853;
             }
+        }
+
+        .ink-item-title {
+            text-overflow: ellipsis;
+            -webkit-line-clamp: 2;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
         }
     }
 }
