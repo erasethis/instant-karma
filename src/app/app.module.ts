@@ -23,10 +23,11 @@ import { BrowserComponent } from './home/browser.component';
 import { HomeComponent } from './home';
 
 import {
-    ResultComponent,
-    ResultDetailComponent,
-    ResultsComponent,
-    SuiteComponent
+    ExplorerComponent,
+    ResultDetailsComponent,
+    ResultPreviewHeaderComponent,
+    ResultPreviewLogComponent,
+    ResultsComponent
 } from './results';
 
 //import { AboutComponent } from './about';
@@ -34,7 +35,7 @@ import { IKarmaReporterHostAddress, KarmaReporter } from '../services';
 
 import '../styles/styles.scss';
 import '../styles/headings.css';
-import '../styles/indigo-pink.css';
+import '../styles/theme.scss';
 
 declare var window: {
     devToolsExtension: any
@@ -46,11 +47,12 @@ declare var window: {
         AppComponent,
         BrowserComponent,
         //AboutComponent,
+        ExplorerComponent,
         HomeComponent,
-        ResultComponent,
-        ResultDetailComponent,
-        ResultsComponent,
-        SuiteComponent
+        ResultDetailsComponent,
+        ResultPreviewHeaderComponent,
+        ResultPreviewLogComponent,
+        ResultsComponent
     ],
     imports: [
         BrowserModule,

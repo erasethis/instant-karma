@@ -1,0 +1,35 @@
+:host {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.ink-item {
+    width: 100px;
+    max-width: 100px;
+    height: 80px;
+    margin: 16px 8px;
+
+    a {
+        font-family: "Segoe UI", Frutiger,"Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif;
+        font-size: 10px;
+        text-align: center;
+        text-decoration: none;
+        color: rgba(255, 255, 255, 0.6);
+
+        md-icon {
+            height: 48px;
+            width: 48px;
+            margin: 8px 20px;
+            color: #ffd600;
+
+            &.ink-failed {
+                color: #ff1744;
+            }
+        
+            &.ink-success {
+                color: #00c853;
+            }
+        }
+    }
+}

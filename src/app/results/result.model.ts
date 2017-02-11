@@ -1,6 +1,8 @@
+import { ResultStatus } from '../../store/data';
+
 export interface IResult {
     id: string;
-    suites: string[];
     description: string;
-    log: string[];
+    suite: string[];
+    status: ResultStatus;
 };

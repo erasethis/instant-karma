@@ -1,15 +1,27 @@
-<md-tab-group>
-    <md-tab [label]="(model | async).browser">
-            <div class="ink-layout">
-                <ink-suite *ngFor="let suite of (model | async).suites" 
-                    class="ink-suite"
-                    [suite]="suite"
-                    [style.width]="suite.width">
-                </ink-suite>
-                <ink-result-detail *ngIf="(model | async).result"
-                    class="ink-result-detail"
-                    [result]="(model | async).result">
-                </ink-result-detail>
+<md-tab-group *ngIf="browsers && (browsers | async).length > 0" 
+    (selectChange)="browserChange($event)">
+    <md-tab *ngFor="let browser of browsers | async;trackBy: trackByBrowserId" 
+        [label]="browser.name">
+        <div class="ink-browser">
+            <ink-explorer [results]="browser.results">
+            </ink-explorer>
+            <div class="ink-preview-pane">
+                <router-outlet></router-outlet>
             </div>
+        </div>
     </md-tab>
+    <!--md-tab *ngFor="let browser of browsers | async" 
+        [label]="browser.name">
+        <div>
+            <ink-explorer *ngIf="browser.results" [results]="browser.results">
+            </ink-explorer>
+        </div>
+    </md-tab-->
 </md-tab-group>
+<div class="ink-hint">
+    <p *ngIf="!browsers ||(browsers | async).length <= 0">
+        No tests discovered yet.
+        You need to run Karma first.
+    </p>
+    <router-outlet></router-outlet>
+</div>

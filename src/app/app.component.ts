@@ -27,10 +27,11 @@ export class AppComponent implements OnInit {
             sanitizer.bypassSecurityTrustResourceUrl(`${this.iconPath}ic_layers_black_48px.svg`));
         mdIconRegistry.addSvgIcon('colorize',
             sanitizer.bypassSecurityTrustResourceUrl(`${this.iconPath}ic_colorize_black_48px.svg`));
+        mdIconRegistry.addSvgIcon('flask',
+            sanitizer.bypassSecurityTrustResourceUrl(`/assets/svg/icons/flask.svg`));
     }
 
     public ngOnInit() {
         this.reporter.start();
-        this.busy.subscribe((busy) => console.log('busy:', busy));
     }
 };

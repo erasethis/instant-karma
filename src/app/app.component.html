@@ -11,11 +11,12 @@
             <button md-button (click)="start.open()">
                 <md-icon svgIcon="menu"></md-icon>
             </button>
-            <span class="ink-app-title">Instant Karma!</span>
+            <h3 class="ink-app-title">Instant Karma!</h3>
         </md-toolbar>
         <md-progress-bar *ngIf="busy | async" mode="indeterminate"></md-progress-bar>
         <div class="ink-content">
             <router-outlet></router-outlet>
         </div>
+        <div class="ink-status-bar"></div>
     </div>
 </md-sidenav-container>

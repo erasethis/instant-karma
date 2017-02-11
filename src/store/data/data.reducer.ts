@@ -3,21 +3,17 @@ import { Reducer } from 'redux';
 import * as Immutable from 'immutable';
 import { browser, IBrowserState } from './browser.reducer';
 import { run, IRunState } from './run.reducer';
-import { session, ISessionState } from './session.reducer';
 import { KARMA_ACTIONS } from '../../services/karma.actions';
 
 export interface IDataState {
     update: (key: string, updater: (value: any) => any) => IDataState;
     withMutations(mutator: (mutable: IDataState) => IDataState): IDataState;
     get(key: 'run'): IRunState;
-    get(key: 'session'): ISessionState;
     set(key: 'run', run: IRunState);
-    set(key: 'session', session: ISessionState);
 };
 
 const INIT_STATE = Immutable.fromJS({
-    run: run(undefined, undefined),
-    session: session(undefined, undefined)
+    run: run(undefined, undefined)
 });
 
 const VOID: Action<any> = {
@@ -34,8 +30,7 @@ export const data: Reducer<IDataState> =
         case KARMA_ACTIONS.KARMA_BROWSER_COMPLETE:
         case KARMA_ACTIONS.KARMA_RUN_COMPLETE: {
             return state.withMutations((_state) => _state
-                .update('run', (_run) => run(_run, action))
-                .update('session', (_session) => session(_session, action)));
+                .update('run', (_run) => run(_run, action)));
         }
         default:
             return state;

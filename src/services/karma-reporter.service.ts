@@ -37,7 +37,7 @@ export class KarmaReporter {
                     });
                     break;
                 case 'spec-complete':
-                // console.log(data)
+                console.log(data)
                     this.ngRedux.dispatch({
                         type: KARMA_ACTIONS.KARMA_SPEC_COMPLETE,
                         payload: {

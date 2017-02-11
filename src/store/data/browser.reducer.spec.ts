@@ -76,16 +76,10 @@ describe('browser reducer', () => {
             it('should set its status to "running"', () => {
                 expect(browser(state, action).get('running')).toBeTrue();
             });
-            it('should set the status of its results to "Pending"', () => {
+            it('should pass the action on to its results', () => {
                 spyOn(resultReducer, 'result');
                 browser(state, action);
-                expect(resultReducer.result).toHaveBeenCalledWith(result, {
-                    type: RESULT_ACTIONS.RESULT_UPDATE_RESULT,
-                    payload: {
-                        status: resultReducer.ResultStatus.Pending,
-                        log: []
-                    }
-                });
+                expect(resultReducer.result).toHaveBeenCalledWith(result, action);
             });
         });
         describe('browser ID is no match', () => {

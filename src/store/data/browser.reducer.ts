@@ -53,13 +53,7 @@ export const browser: Reducer<IBrowserState> =
             return state.withMutations((_state) => _state
                 .set('running', true)
                 .update('results', (_results: Immutable.List<IResultState>) =>
-                    _results.map((_result) => result(_result, {
-                        type: RESULT_ACTIONS.RESULT_UPDATE_RESULT,
-                        payload: {
-                            status: ResultStatus.Pending,
-                            log: []
-                        }
-                    }))));
+                    _results.map((_result) => result(_result, action))));
         }
         case KARMA_ACTIONS.KARMA_SPEC_COMPLETE: {
             let index = state.get('results').findIndex((_result) =>

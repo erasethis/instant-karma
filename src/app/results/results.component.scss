@@ -1,28 +1,36 @@
-md-tab-group {
+:host {
+    display: block;
     height: 100%;
+    box-sizing: border-box;
 }
 
-.ink-layout {
-    margin: 0;
+md-tab-group {
+    height: 100%;
+    font-family: "Segoe UI", Frutiger,"Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif;
+}
+
+.ink-browser {
     display: flex;
     flex-direction: row;
     height: 100%;
 }
 
-.ink-suite, .ink-result-detail {
-    padding: 0;
-    box-shadow: -4px 0 4px -2px rgba(0, 0, 0, 0.4);
+ink-explorer, .ink-preview-pane {
     flex-shrink: 1;
-    flex-grow: 1;
-    overflow-x: hidden;
+    width: 100%;
     overflow-y: auto;
-    transition: all 0.3s linear;
-    
-    &::-webkit-scrollbar {
-        width: 0;
-    }
 }
 
-ink-result-detail {
-    width: 60%;
+ink-explorer {
+    flex-grow: 1;
+}
+
+.ink-preview-pane {
+    flex-grow: 5;
+}
+
+.ink-hint {
+    text-align: center;
+    margin-top: 5%;
+    white-space: pre-wrap;
 }

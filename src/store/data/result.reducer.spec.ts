@@ -56,7 +56,8 @@ describe('result reducer', () => {
                 payload: {
                     result: {
                         id: 'spec42',
-                        description: 'foobar'
+                        description: 'foobar',
+                        suite: ['foo', 'bar']
                     }
                 }
             };
@@ -69,6 +70,10 @@ describe('result reducer', () => {
             expect(result(RESULT_INIT_STATE, action).get('description'))
                 .toEqual('foobar');
         });
+        it('should set its "suite" property"', () => {
+            expect(result(RESULT_INIT_STATE, action).get('suite').toJS())
+                .toEqual(['foo', 'bar']);
+        });
         describe('spec successful', () => {
             beforeEach(() => {
                 action.payload.result.success = true;
@@ -80,14 +85,14 @@ describe('result reducer', () => {
         });
         describe('spec failed', () => {
             beforeEach(() => {
-                action.payload.result.failed = true;
+                action.payload.result.success = false;
+                action.payload.result.log = ['foo'];
             });
             it('should set its "status" property to "Failed"', () => {
                 expect(result(RESULT_INIT_STATE, action).get('status'))
                     .toEqual(ResultStatus.Failed);
             });
             it('should set its "log" property', () => {
-                action.payload.result.log = ['foo'];
                 expect(result(RESULT_INIT_STATE, action).get('log'))
                     .toEqual(Immutable.fromJS(['foo']));
             });

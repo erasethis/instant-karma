@@ -5,12 +5,12 @@ import * as md5 from 'md5-hex';
 import { KARMA_ACTIONS, RESULT_ACTIONS } from '../../services';
 
 export const enum ResultStatus {
-    Disabled,
-    Failed,
-    None,
-    Pending,
-    Skipped,
-    Success
+    Disabled = 1,
+    Failed = 2,
+    None = 3,
+    Pending = 4,
+    Skipped = 5,
+    Success = 6
 };
 
 export interface IResultState {
@@ -60,6 +60,7 @@ export const result: Reducer<IResultState> =
             return state.withMutations((_state) => _state
                 .set('id', _result.id)
                 .set('description', _result.description)
+                .set('suite', Immutable.fromJS(_result.suite))
                 .set('status', getStatus(_result))
                 .set('log', Immutable.fromJS(_result.log)));
         }
@@ -72,7 +73,7 @@ function getStatus(_result: any): ResultStatus {
     if (_result.success) {
         return ResultStatus.Success;
     }
-    if (_result.failed) {
+    if (!_result.success && _result.log && _result.log.length > 0) {
         return ResultStatus.Failed;
     }
     return ResultStatus.None;
