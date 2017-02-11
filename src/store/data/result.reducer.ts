@@ -22,6 +22,7 @@ export interface IResultState {
     get(key: 'description'): string;
     get(key: 'suite'): Immutable.List<string>;
     get(key: 'status'): ResultStatus;
+    get(key: 'messages'): string[],
     get(key: 'log'): Immutable.List<string>;
     get(key: 'visible'): boolean;
     get(key: 'selected'): boolean;
@@ -39,6 +40,7 @@ export const RESULT_INIT_STATE: IResultState = Immutable.fromJS({
     description: undefined,
     suite: [],
     status: ResultStatus.None,
+    messages: [],
     log: [],
     visible: false,
     selected: false
@@ -62,7 +64,11 @@ export const result: Reducer<IResultState> =
                 .set('description', _result.description)
                 .set('suite', Immutable.fromJS(_result.suite))
                 .set('status', getStatus(_result))
-                .set('log', Immutable.fromJS(_result.log)));
+                .set('messages', Immutable.fromJS(getMessages(_result.log)))
+                .set('log', Immutable.fromJS(_result.log
+                    ? _result.log.map((_message) =>_message.trim())
+                    : []
+                )));
         }
         default:
             return state;
@@ -77,4 +83,11 @@ function getStatus(_result: any): ResultStatus {
         return ResultStatus.Failed;
     }
     return ResultStatus.None;
+}
+
+function getMessages(log: any): string[] {
+    if (log && log.length > 0) {
+        return log.map((_log) => _log.match(/^(.*?)\./)[0]);
+    }
+    return [];
 }

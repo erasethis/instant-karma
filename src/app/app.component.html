@@ -13,7 +13,7 @@
             </button>
             <h3 class="ink-app-title">Instant Karma!</h3>
         </md-toolbar>
-        <md-progress-bar *ngIf="busy | async" mode="indeterminate"></md-progress-bar>
+        <md-progress-bar [ngClass]="{ 'ink-visible': busy | async }" mode="indeterminate"></md-progress-bar>
         <div class="ink-content">
             <router-outlet></router-outlet>
         </div>

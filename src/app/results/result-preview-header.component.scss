@@ -2,8 +2,9 @@
     display: flex;
     flex-direction: row;
     padding: 20px;
-    background: #37474f;
+    background: rgba(255, 255, 255, 0.1);
     font-weight: 300;
+    align-items: center;
 }
 
 md-icon {

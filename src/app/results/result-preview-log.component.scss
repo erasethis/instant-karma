@@ -1,12 +1,10 @@
 .ink-preview-log {
     padding: 20px;
 
-    p {
+    div {
         font-family: Consolas, Courier, fixed;
         font-weight: 100;
-        font-size: 14px;
-        white-space: pre-wrap;
-        margin: 0;
+        font-size: 16px;
         color: rgba(255, 255, 255, 0.8);
     }
 }

@@ -30,7 +30,7 @@ describe('result reducer', () => {
             expect(RESULT_INIT_STATE.get('log').toJS()).toBeEmptyArray();
         });
         it('should have its "visible" property set to "false"', () => {
-            expect(RESULT_INIT_STATE.get('visible')).toBeFalse();
+            expect(RESULT_INIT_STATE.get('visible')).toBeTrue();
         });
     });
     describe('unknown action', () => {
@@ -86,15 +86,19 @@ describe('result reducer', () => {
         describe('spec failed', () => {
             beforeEach(() => {
                 action.payload.result.success = false;
-                action.payload.result.log = ['foo'];
+                action.payload.result.log = ['foo. bar'];
             });
             it('should set its "status" property to "Failed"', () => {
                 expect(result(RESULT_INIT_STATE, action).get('status'))
                     .toEqual(ResultStatus.Failed);
             });
+            it('should set its "messages" property', () => {
+                expect(result(RESULT_INIT_STATE, action).get('messages'))
+                    .toEqual(Immutable.fromJS(['foo.']));
+            });
             it('should set its "log" property', () => {
                 expect(result(RESULT_INIT_STATE, action).get('log'))
-                    .toEqual(Immutable.fromJS(['foo']));
+                    .toEqual(Immutable.fromJS(['foo. bar']));
             });
         });
     });
