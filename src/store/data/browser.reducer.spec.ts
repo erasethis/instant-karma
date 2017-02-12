@@ -99,6 +99,9 @@ describe('browser reducer', () => {
             action = {
                 type: KARMA_ACTIONS.KARMA_SPEC_COMPLETE,
                 payload: {
+                    browser: {
+                        id: '34569876'
+                    },
                     result: {
                         id: 'spec42'
                     }

@@ -19,6 +19,7 @@ export interface IResultState {
     updateIn: (keyPath: string[], updater: (value: any) => any) => IResultState;
     withMutations(mutator: (mutable: IResultState) => IResultState): IResultState;
     get(key: 'id'): string;
+    get(key: 'browserId'): string;
     get(key: 'description'): string;
     get(key: 'suite'): Immutable.List<string>;
     get(key: 'status'): ResultStatus;
@@ -27,6 +28,7 @@ export interface IResultState {
     get(key: 'visible'): boolean;
     get(key: 'selected'): boolean;
     set(key: 'id', id: string);
+    set(key: 'browserId', browserId: string);
     set(key: 'description', description: string);
     set(key: 'suite', suite: Immutable.List<string>);
     set(key: 'status', status: ResultStatus);
@@ -37,6 +39,7 @@ export interface IResultState {
 
 export const RESULT_INIT_STATE: IResultState = Immutable.fromJS({
     id: undefined,
+    browserId: undefined,
     description: undefined,
     suite: [],
     status: ResultStatus.None,
@@ -58,9 +61,11 @@ export const result: Reducer<IResultState> =
             return state.update('status', (_status) => ResultStatus.Pending);
         }
         case KARMA_ACTIONS.KARMA_SPEC_COMPLETE: {
+            let _browser = action.payload.browser;
             let _result = action.payload.result;
             return state.withMutations((_state) => _state
                 .set('id', _result.id)
+                .set('browserId', _browser.id)
                 .set('description', _result.description)
                 .set('suite', Immutable.fromJS(_result.suite))
                 .set('status', getStatus(_result))
@@ -87,7 +92,7 @@ function getStatus(_result: any): ResultStatus {
 
 function getMessages(log: any): string[] {
     if (log && log.length > 0) {
-        return log.map((_log) => _log.match(/^(.*?)\./)[0]);
+        return log.map((_log) => _log.match(/.*/)[0]);
     }
     return [];
 }

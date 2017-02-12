@@ -1,7 +1,7 @@
-<div class="ink-results" *ngIf="browsers && (browsers | async).length > 0" >
+<div class="ink-results" *ngIf="model && (model | async).length > 0" >
     <nav md-tab-nav-bar>
         <a md-tab-link
-            *ngFor="let browser of browsers | async;trackBy: trackByBrowserId"
+            *ngFor="let browser of model | async;trackBy: trackByBrowserId"
             [routerLink]="['/results', browser.id]"
             routerLinkActive #rla="routerLinkActive"
             [active]="rla.isActive">

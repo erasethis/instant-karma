@@ -19,7 +19,6 @@ import thunkMiddleware from 'redux-thunk';
 import { IAppState, rootReducer } from '../store';
 
 import { AppComponent } from './app.component';
-import { BrowserComponent } from './home/browser.component';
 import { HomeComponent } from './home';
 
 import {
@@ -46,7 +45,6 @@ declare var window: {
     bootstrap: [AppComponent],
     declarations: [
         AppComponent,
-        BrowserComponent,
         //AboutComponent,
         ResultsExplorerComponent,
         HomeComponent,

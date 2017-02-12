@@ -57,7 +57,8 @@ export const browser: Reducer<IBrowserState> =
         }
         case KARMA_ACTIONS.KARMA_SPEC_COMPLETE: {
             let index = state.get('results').findIndex((_result) =>
-                _result.get('id') === action.payload.result.id);
+                _result.get('id') === action.payload.result.id &&
+                _result.get('browserId') === action.payload.browser.id);
             return state.update('results', (_results) =>
                 index >= 0
                     ? _results.update(index, (_result) => result(_result, action))

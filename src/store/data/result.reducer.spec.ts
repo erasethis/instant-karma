@@ -17,6 +17,9 @@ describe('result reducer', () => {
         it('should have its "id" property set to "undefined"', () => {
             expect(RESULT_INIT_STATE.get('id')).toBeUndefined();
         });
+        it('should have its "browserId" property set to "undefined"', () => {
+            expect(RESULT_INIT_STATE.get('browserId')).toBeUndefined();
+        });
         it('should have its "description" property set to "undefined"', () => {
             expect(RESULT_INIT_STATE.get('description')).toBeUndefined();
         });
@@ -54,6 +57,9 @@ describe('result reducer', () => {
             action = {
                 type: KARMA_ACTIONS.KARMA_SPEC_COMPLETE,
                 payload: {
+                    browser: {
+                        id: '34569876',
+                    },
                     result: {
                         id: 'spec42',
                         description: 'foobar',
@@ -65,6 +71,10 @@ describe('result reducer', () => {
         it('should set its "id" property', () => {
             expect(result(RESULT_INIT_STATE, action).get('id'))
                 .toEqual('spec42');
+        });
+        it('should set its "browserId" property', () => {
+            expect(result(RESULT_INIT_STATE, action).get('browserId'))
+                .toEqual('34569876');
         });
         it('should set its "description" property"', () => {
             expect(result(RESULT_INIT_STATE, action).get('description'))
@@ -86,7 +96,7 @@ describe('result reducer', () => {
         describe('spec failed', () => {
             beforeEach(() => {
                 action.payload.result.success = false;
-                action.payload.result.log = ['foo. bar'];
+                action.payload.result.log = ['foo.\r\nbar'];
             });
             it('should set its "status" property to "Failed"', () => {
                 expect(result(RESULT_INIT_STATE, action).get('status'))
@@ -98,7 +108,7 @@ describe('result reducer', () => {
             });
             it('should set its "log" property', () => {
                 expect(result(RESULT_INIT_STATE, action).get('log'))
-                    .toEqual(Immutable.fromJS(['foo. bar']));
+                    .toEqual(Immutable.fromJS(['foo.\r\nbar']));
             });
         });
     });

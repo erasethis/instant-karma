@@ -20,9 +20,9 @@ export const routes: Routes = [
                 { path: ':id', component: ResultPreviewComponent }
             ]
         },
-    ]}
+    ]},
     // { path: 'about', component: AboutComponent },
-    // { path: '**',    component: NoContentComponent },
+    { path: '**', redirectTo: 'results', pathMatch: 'full' },
 ];
 
 
