@@ -30,7 +30,7 @@ describe('result reducer', () => {
             expect(RESULT_INIT_STATE.get('log').toJS()).toBeEmptyArray();
         });
         it('should have its "visible" property set to "false"', () => {
-            expect(RESULT_INIT_STATE.get('visible')).toBeTrue();
+            expect(RESULT_INIT_STATE.get('visible')).toBeFalse();
         });
     });
     describe('unknown action', () => {

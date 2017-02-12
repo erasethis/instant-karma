@@ -23,6 +23,7 @@ import { BrowserComponent } from './home/browser.component';
 import { HomeComponent } from './home';
 
 import {
+    IsValidBrowser,
     ResultsExplorerComponent,
     ResultPreviewComponent,
     ResultPreviewHeaderComponent,
@@ -67,7 +68,8 @@ declare var window: {
         appRoutingProviders,
         NgReduxRouter,
         { provide: 'IKarmaReporterHostAddress', useValue: { host: 'localhost', port: 3200 } },
-        KarmaReporter
+        KarmaReporter,
+        IsValidBrowser
     ]
 })
 export class AppModule {

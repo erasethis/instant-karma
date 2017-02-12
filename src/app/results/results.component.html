@@ -1,17 +1,3 @@
-<!--md-tab-group *ngIf="browsers && (browsers | async).length > 0" 
-    (selectChange)="browserChange($event)">
-    <md-tab *ngFor="let browser of browsers | async;trackBy: trackByBrowserId" 
-        [label]="browser.name">
-        <div class="ink-browser">
-            <ink-explorer [results]="browser.results">
-            </ink-explorer>
-            <div class="ink-preview-pane">
-                <router-outlet></router-outlet>
-            </div>
-        </div>
-    </md-tab>
-</md-tab-group-->
-
 <div class="ink-results" *ngIf="browsers && (browsers | async).length > 0" >
     <nav md-tab-nav-bar>
         <a md-tab-link

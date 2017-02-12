@@ -1,3 +1,4 @@
+export { IsValidBrowser } from './is-valid-browser.guard.ts';
 export { ResultsExplorerComponent } from './results-explorer.component';
 export { ResultPreviewComponent } from './result-preview.component';
 export { ResultPreviewHeaderComponent } from './result-preview-header.component';

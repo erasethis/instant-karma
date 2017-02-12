@@ -23,13 +23,12 @@ export class ResultsExplorerComponent {
         this.results = Observable.combineLatest(browserId, this.browsers,
             (_id, _browsers) => ({ _id, _browsers}))
             .map((c) => {
-                console.log('id=', c._id)
                 let match = c._browsers.find((b) => b.get('id') === c._id);
                 return match
                     ? match.get('results').toJS()
                     : []
             }
-        ).do(x => console.log(x));
+        );
     }
 
     public trackBySpecId(index: number, item: any): string {
