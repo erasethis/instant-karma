@@ -1,8 +1,7 @@
 <div class="ink-explorer">
     <div class="ink-items">
         <div class="ink-item"
-            [@flyInOut]="state"
-            *ngFor="let result of results | async;trackBy: trackById"
+            *ngFor="let result of results; trackBy: trackById"
             routerLinkActive="ink-active-item">
             <a [routerLink]="[result.id]">
                 <md-icon svgIcon="flask" 

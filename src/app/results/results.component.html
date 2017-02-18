@@ -1,20 +1,22 @@
-<div class="ink-results" *ngIf="model && (model | async).length > 0" >
-    <nav md-tab-nav-bar>
-        <a md-tab-link
-            *ngFor="let browser of model | async;trackBy: trackByBrowserId"
-            [routerLink]="['/results', browser.id]"
-            routerLinkActive #rla="routerLinkActive"
-            [active]="rla.isActive">
-            {{browser.name}}
-        </a>
-    </nav>
-    <router-outlet></router-outlet>
+<div class="ink-results" *ngIf="model && (model | async).results">
+    <md-tab-group>
+        <md-tab>
+            <template md-tab-label>
+                All
+            </template>
+            <ink-results-explorer [results]="(model | async).results">
+            </ink-results-explorer>
+        </md-tab>
+        <md-tab>
+            <template md-tab-label>
+                Failed
+            </template>
+        </md-tab>
+    </md-tab-group>
 </div>
 
 <div class="ink-hint">
     <p *ngIf="!browsers ||(browsers | async).length <= 0">
-        No tests discovered yet.
-        You need to run Karma first.
+        No tests discovered yet. You need to run Karma first.
     </p>
-    <router-outlet></router-outlet>
 </div>

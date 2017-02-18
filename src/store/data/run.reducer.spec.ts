@@ -60,6 +60,12 @@ describe('run reducer', () => {
                 }
             };
         });
+        describe('"browsers" collection is empty', () => {
+            it('should set the browser\'s "selected" property to true ', () => {
+                expect(run(RUN_INIT_STATE, action).getIn(['browsers', 0, 'selected']))
+                    .toBe(true);
+            });
+        });
         describe('browser not yet registered', () => {
             it('should add the browser', () => {
                 expect(run(RUN_INIT_STATE, action).get('browsers').count())

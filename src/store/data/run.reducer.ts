@@ -6,9 +6,10 @@ import { KARMA_ACTIONS } from '../../services';
 import { browser, IBrowserState, BROWSER_INIT_STATE } from './browser.reducer';
 
 export interface IRunState {
+    getIn: (keyPath: any[]) => IRunState;
     toJS: () => any;
     update: (key: string, updater: (value: any) => any) => IRunState;
-    updateIn: (keyPath: string[], updater: (value: any) => any) => IRunState;
+    updateIn: (keyPath: any[], updater: (value: any) => any) => IRunState;
     withMutations(mutator: (mutable: IRunState) => IRunState): IRunState;
     get(key: 'id'): string;
     get(key: 'browsers'): Immutable.List<IBrowserState>;
@@ -42,9 +43,17 @@ export const run: Reducer<IRunState> =
                 let index = _browsers.findIndex((_browser) =>
                     _browser.get('id') === action.payload.browser.id);
 
-                return index >= 0
-                    ? _browsers.update(index, (_browser) => browser(_browser, action))
-                    : _browsers.push(browser(BROWSER_INIT_STATE, action));
+                if (index >= 0) {
+                    return _browsers.update(index, (_browser) => browser(_browser, action));
+                }
+
+                let _browser = browser(BROWSER_INIT_STATE, action);
+
+                if (_browsers.count() === 0) {
+                    _browser = _browser.set('selected', true);
+                }
+
+                return _browsers.push(_browser);
             });
         case KARMA_ACTIONS.KARMA_SPEC_COMPLETE:
         case KARMA_ACTIONS.KARMA_BROWSER_COMPLETE: {

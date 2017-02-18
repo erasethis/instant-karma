@@ -15,12 +15,14 @@ export interface IBrowserState {
     get(key: 'results'): Immutable.List<IResultState>;
     get(key: 'running'): boolean;
     get(key: 'visible'): boolean;
+    get(key: 'selected'): boolean;
     getIn(searchKeyPath: any[]);
     set(key: 'id', id: string);
     set(key: 'name', name: string);
     set(key: 'results', groups: Immutable.List<IResultState>);
     set(key: 'running', running: boolean);
     set(key: 'visible', visible: boolean);
+    set(key: 'selected', selected: boolean);
 };
 
 export const BROWSER_INIT_STATE: IBrowserState = Immutable.fromJS({
@@ -28,7 +30,8 @@ export const BROWSER_INIT_STATE: IBrowserState = Immutable.fromJS({
     name: undefined,
     results: [],
     running: false,
-    visible: false
+    visible: false,
+    selected: false
 });
 
 const VOID: Action<any> = {

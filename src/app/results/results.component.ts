@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 import * as Immutable from 'immutable';
 import { select } from 'ng2-redux';
-import { IBrowserState } from '../../store/data';
+import { IBrowserState, IResultState } from '../../store/data';
 
 @Component({
     selector: 'ink-results',
@@ -10,18 +10,18 @@ import { IBrowserState } from '../../store/data';
     styleUrls: ['./results.component.scss']
 })
 export class ResultsComponent {
-    public model: Observable<Array<{ id: string, name: string }>>;
+    public model: Observable<{ results: IResultState[] }>;
 
     @select(['data', 'run', 'browsers'])
     private browsers: Observable<Immutable.List<IBrowserState>>;
 
     constructor() {
-        this.model = this.browsers.map((_browsers) =>
-            _browsers.map((_browser) => ({
-                id: _browser.get('id'),
-                name: _browser.get('name')
-            })).toJS()
-        ).distinctUntilChanged();
+        this.model = this.browsers.map((_browsers) => {
+            let selectedBrowser = _browsers.find((_browser) => _browser.get('selected') === true);
+            return ({
+                results: selectedBrowser ? selectedBrowser.get('results').toJS() : []
+            });
+        }).distinctUntilChanged();
     }
 
     public trackByBrowserId(index: number, item: any): number {
