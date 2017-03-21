@@ -21,12 +21,12 @@ import { IAppState, rootReducer } from '../store';
 import { AppComponent } from './app.component';
 
 import {
-    IsValidBrowser,
     ResultsExplorerComponent,
     ResultPreviewComponent,
     ResultPreviewHeaderComponent,
     ResultPreviewLogComponent,
-    ResultsComponent
+    ResultsComponent,
+    ResultsGroupComponent,
 } from './results';
 
 import { IKarmaReporterHostAddress, KarmaReporter } from '../services';
@@ -47,7 +47,8 @@ declare var window: {
         ResultPreviewComponent,
         ResultPreviewHeaderComponent,
         ResultPreviewLogComponent,
-        ResultsComponent
+        ResultsComponent,
+        ResultsGroupComponent
     ],
     imports: [
         BrowserModule,
@@ -62,8 +63,7 @@ declare var window: {
         appRoutingProviders,
         NgReduxRouter,
         { provide: 'IKarmaReporterHostAddress', useValue: { host: 'localhost', port: 3200 } },
-        KarmaReporter,
-        IsValidBrowser
+        KarmaReporter
     ]
 })
 export class AppModule {

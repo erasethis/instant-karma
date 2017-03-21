@@ -1,24 +1,18 @@
 import { Routes, RouterModule } from '@angular/router';
 
 import {
-    IsValidBrowser,
     ResultsComponent,
-    ResultPreviewComponent,
-    ResultsExplorerComponent
+    ResultPreviewComponent
 } from './results';
-
-//import { AboutComponent } from './about';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'results', pathMatch: 'full' },
     { path: 'results', component: ResultsComponent, children: [
         {
             path: ':browserId/:specId',
-            component: ResultPreviewComponent,
-            //canActivate: [IsValidBrowser],
+            component: ResultPreviewComponent
         },
     ]},
-    // { path: 'about', component: AboutComponent },
     { path: '**', redirectTo: 'results', pathMatch: 'full' },
 ];
 

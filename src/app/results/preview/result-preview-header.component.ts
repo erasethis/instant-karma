@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { IResult } from './result.model';
+import { IResultState } from '../../../store/data';
 
 @Component({
     selector: 'ink-result-preview-header',
@@ -8,5 +8,5 @@ import { IResult } from './result.model';
 })
 export class ResultPreviewHeaderComponent {
     @Input()
-    public result: IResult;
+    public result: IResultState;
 };

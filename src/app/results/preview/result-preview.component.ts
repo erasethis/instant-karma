@@ -3,8 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 import { select } from 'ng2-redux';
 import * as Immutable from 'immutable';
-import { IBrowserState, IResultState } from '../../store/data';
-import { IResult } from './result.model';
+import { IBrowserState, IResultState } from '../../../store/data';
 
 @Component({
     selector: 'ink-result-preview',
@@ -12,8 +11,7 @@ import { IResult } from './result.model';
     styleUrls: ['./result-preview.component.scss']
 })
 export class ResultPreviewComponent {
-    @Input()
-    public result: Observable<IResult>;
+    public result: Observable<IResultState>;
 
     @select(['data', 'run', 'suite', 'results'])
     private results: Observable<Immutable.List<IResultState>>;
@@ -30,8 +28,6 @@ export class ResultPreviewComponent {
 
         this.result = Observable.combineLatest(this.results, browserId, specId,
             (_results, _browserId, _specId) => ({ _results, _browserId, _specId })).map((c) => {
-
-            console.log(`browserId=${c._browserId}, specId=${c._specId}`);
 
             let item = c._results.find(((r) => r.get('id') === c._specId &&
                 r.get('browserId') === c._browserId));
