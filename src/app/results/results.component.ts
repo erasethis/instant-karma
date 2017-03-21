@@ -2,7 +2,12 @@ import { Component } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 import * as Immutable from 'immutable';
 import { select } from 'ng2-redux';
-import { IBrowserState } from '../../store/data';
+import { ISuiteState, IResultState, ResultStatus } from '../../store/data';
+
+type ResultsModel = {
+    failed: Observable<IResultState[]>,
+    all: Observable<IResultState[]>
+};
 
 @Component({
     selector: 'ink-results',
@@ -10,18 +15,18 @@ import { IBrowserState } from '../../store/data';
     styleUrls: ['./results.component.scss']
 })
 export class ResultsComponent {
-    public model: Observable<Array<{ id: string, name: string }>>;
+    public model: ResultsModel;
 
-    @select(['data', 'run', 'browsers'])
-    private browsers: Observable<Immutable.List<IBrowserState>>;
+    @select(['data', 'run', 'suite', 'results'])
+    private results: Observable<Immutable.List<IResultState>>;
 
     constructor() {
-        this.model = this.browsers.map((_browsers) =>
-            _browsers.map((_browser) => ({
-                id: _browser.get('id'),
-                name: _browser.get('name')
-            })).toJS()
-        ).distinctUntilChanged();
+        this.model = {
+            failed: this.results.map((_results) =>
+                _results.filter((_result) =>
+                    _result.get('status') === ResultStatus.Failed).toArray()),
+            all: this.results.map((_results) => _results.toArray())
+        };
     }
 
     public trackByBrowserId(index: number, item: any): number {

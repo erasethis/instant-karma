@@ -19,7 +19,6 @@ import thunkMiddleware from 'redux-thunk';
 import { IAppState, rootReducer } from '../store';
 
 import { AppComponent } from './app.component';
-import { HomeComponent } from './home';
 
 import {
     IsValidBrowser,
@@ -30,7 +29,6 @@ import {
     ResultsComponent
 } from './results';
 
-//import { AboutComponent } from './about';
 import { IKarmaReporterHostAddress, KarmaReporter } from '../services';
 
 import '../styles/styles.scss';
@@ -45,9 +43,7 @@ declare var window: {
     bootstrap: [AppComponent],
     declarations: [
         AppComponent,
-        //AboutComponent,
         ResultsExplorerComponent,
-        HomeComponent,
         ResultPreviewComponent,
         ResultPreviewHeaderComponent,
         ResultPreviewLogComponent,

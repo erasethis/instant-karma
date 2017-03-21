@@ -2,7 +2,7 @@ import { Action } from 'flux-standard-action';
 import { Reducer } from 'redux';
 import * as Immutable from 'immutable';
 import { browser, IBrowserState } from './browser.reducer';
-import { run, IRunState } from './run.reducer';
+import { run, IRunState, RUN_INIT_STATE } from './run.reducer';
 import { KARMA_ACTIONS } from '../../services/karma.actions';
 
 export interface IDataState {
@@ -13,7 +13,7 @@ export interface IDataState {
 };
 
 const INIT_STATE = Immutable.fromJS({
-    run: run(undefined, undefined)
+    run: RUN_INIT_STATE
 });
 
 const VOID: Action<any> = {

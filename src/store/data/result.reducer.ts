@@ -38,9 +38,9 @@ export interface IResultState {
 };
 
 export const RESULT_INIT_STATE: IResultState = Immutable.fromJS({
-    id: undefined,
-    browserId: undefined,
-    description: undefined,
+    id: 0,
+    browserId: '',
+    description: '',
     suite: [],
     status: ResultStatus.None,
     messages: [],

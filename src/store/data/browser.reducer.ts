@@ -56,13 +56,16 @@ export const browser: Reducer<IBrowserState> =
                     _results.map((_result) => result(_result, action))));
         }
         case KARMA_ACTIONS.KARMA_SPEC_COMPLETE: {
-            let index = state.get('results').findIndex((_result) =>
-                _result.get('id') === action.payload.result.id &&
-                _result.get('browserId') === action.payload.browser.id);
-            return state.update('results', (_results) =>
-                index >= 0
-                    ? _results.update(index, (_result) => result(_result, action))
-                    : _results.push(result(RESULT_INIT_STATE, action)));
+            let browserId = state.get('id');
+            if (browserId === action.payload.browser.id) {
+                let index = state.get('results').findIndex((_result) =>
+                    _result.get('id') === action.payload.result.id);
+                return state.update('results', (_results) =>
+                    index >= 0
+                        ? _results.update(index, (_result) => result(_result, action))
+                        : _results.push(result(RESULT_INIT_STATE, action)));
+            }
+            return state;
         }
         case KARMA_ACTIONS.KARMA_BROWSER_COMPLETE: {
             return state.get('id') === action.payload.browser.id

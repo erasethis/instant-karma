@@ -14,25 +14,22 @@ import { FlyInOutAnimation } from '../fly-in-out.animation';
 })
 export class ResultsExplorerComponent {
     public state = 'in';
+
+    @Input()
     public results: Observable<IResultState[]>;
+
+    public showPreview: Observable<boolean>;
 
     @select(['data', 'run', 'browsers'])
     private browsers: Observable<Immutable.List<IBrowserState>>;
 
     constructor(route: ActivatedRoute) {
-        let browserId = route.params.map((_params) =>
-            _params['id']).distinctUntilChanged().do(x => console.log('browser id = ', x));
 
-        this.results = Observable.combineLatest(browserId, this.browsers,
-            (_browserId, _browsers) => ({ _browserId, _browsers}))
-            .map((c) => {
-                let match = c._browsers.find((b) => b.get('id') === c._browserId);
-                console.log('match for ', c._browserId, ': ', match.toJS())
-                return match
-                    ? match.get('results').toJS()
-                    : [];
-            }
-        ).do(x => console.log('results = ', x));
+    }
+
+    public ngOnInit() {
+       // this.showPreview = this.results.map((_results) =>
+       //     _results.some((_result) => _result.get('selected') === true));
     }
 
     public trackById(index: number, item: any): string {

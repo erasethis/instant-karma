@@ -13,12 +13,9 @@ export const routes: Routes = [
     { path: '', redirectTo: 'results', pathMatch: 'full' },
     { path: 'results', component: ResultsComponent, children: [
         {
-            path: ':id',
-            component: ResultsExplorerComponent,
-            canActivate: [IsValidBrowser],
-            children: [
-                { path: ':id', component: ResultPreviewComponent }
-            ]
+            path: ':browserId/:specId',
+            component: ResultPreviewComponent,
+            //canActivate: [IsValidBrowser],
         },
     ]},
     // { path: 'about', component: AboutComponent },

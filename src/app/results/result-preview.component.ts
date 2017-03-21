@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 import { select } from 'ng2-redux';
@@ -12,27 +12,31 @@ import { IResult } from './result.model';
     styleUrls: ['./result-preview.component.scss']
 })
 export class ResultPreviewComponent {
+    @Input()
     public result: Observable<IResult>;
 
-    @select(['data', 'run', 'browsers'])
-    private browsers: Observable<Immutable.List<IBrowserState>>;
+    @select(['data', 'run', 'suite', 'results'])
+    private results: Observable<Immutable.List<IResultState>>;
 
     private browserId: Observable<number>;
     private specId: Observable<string>;
 
     constructor(route: ActivatedRoute) {
-        let browserId = route.parent.params.map((_params) =>
-            _params['id']).distinctUntilChanged();
+        let browserId = route.params.map((_params) =>
+            _params['browserId']).distinctUntilChanged();
 
         let specId = route.params.map((_params) =>
-            _params['id']).distinctUntilChanged();
+            _params['specId']).distinctUntilChanged();
 
-        this.result = Observable.combineLatest(this.browsers, browserId, specId,
-            (_browsers, _browserId, _specId) => ({ _browsers, _browserId, _specId })).map((c) => {
-            let _browser = c._browsers.find((b) => b.get('id') === c._browserId);
-            if (_browser) {
-                return _browser.get('results').find(((r) => r.get('id') === c._specId)).toJS();
-            }
+        this.result = Observable.combineLatest(this.results, browserId, specId,
+            (_results, _browserId, _specId) => ({ _results, _browserId, _specId })).map((c) => {
+
+            console.log(`browserId=${c._browserId}, specId=${c._specId}`);
+
+            let item = c._results.find(((r) => r.get('id') === c._specId &&
+                r.get('browserId') === c._browserId));
+
+            return item ? item.toJS() : undefined;
         }).filter((_result) => _result !== undefined);
     }
 };
