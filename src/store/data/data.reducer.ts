@@ -1,7 +1,6 @@
 import { Action } from 'flux-standard-action';
 import { Reducer } from 'redux';
 import * as Immutable from 'immutable';
-import { browser, IBrowserState } from './browser.reducer';
 import { run, IRunState, RUN_INIT_STATE } from './run.reducer';
 import { KARMA_ACTIONS } from '../../services/karma.actions';
 

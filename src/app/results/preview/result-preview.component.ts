@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 import { select } from 'ng2-redux';
 import * as Immutable from 'immutable';
-import { IBrowserState, IResultState } from '../../../store/data';
+import { IResultState } from '../../../store/data';
 
 @Component({
     selector: 'ink-result-preview',
