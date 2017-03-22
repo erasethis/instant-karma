@@ -3,6 +3,7 @@ import { Reducer } from 'redux';
 import * as Immutable from 'immutable';
 import * as md5 from 'md5-hex';
 import { KARMA_ACTIONS } from '../../services';
+import { browser, IBrowserState, BROWSER_INIT_STATE } from './browser.reducer';
 import { suite, ISuiteState, SUITE_INIT_STATE } from './suite.reducer';
 
 export interface IRunState {
@@ -17,6 +18,7 @@ export interface IRunState {
 
 export const RUN_INIT_STATE: IRunState = Immutable.fromJS({
     id: '',
+    browsers: [],
     suite: SUITE_INIT_STATE,
     completed: false
 });
@@ -32,9 +34,14 @@ export const run: Reducer<IRunState> =
         case KARMA_ACTIONS.KARMA_RUN_START: {
             return state.merge({
                 id: createId(),
+                browsers: [],
                 suite: SUITE_INIT_STATE,
                 completed: false
             });
+        }
+        case KARMA_ACTIONS.KARMA_BROWSER_START: {
+            return state.update('browsers', (_browsers) =>
+                _browsers.push(browser(BROWSER_INIT_STATE, action)));
         }
         case KARMA_ACTIONS.KARMA_SPEC_COMPLETE: {
             return state.update('suite', (_suite) =>

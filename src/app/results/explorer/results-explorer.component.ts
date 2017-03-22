@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
-import { IResultState } from '../../../store/data';
+import { IBrowserState, IResultState } from '../../../store/data';
 import { FlyInOutAnimation } from '../../fly-in-out.animation';
 import { groupBy } from 'lodash';
 import { IResultsGroup } from './results-group.model';
@@ -15,20 +15,26 @@ export class ResultsExplorerComponent implements OnInit {
     public state = 'in';
 
     @Input()
+    public browsers: Observable<IBrowserState[]>;
+
+    @Input()
     public results: Observable<IResultState[]>;
 
     public groups: Observable<IResultsGroup[]>;
 
     public ngOnInit() {
-        this.groups = this.results.map((_results) => {
-            let resultsGroups: IResultsGroup[] = [];
-            let groups = groupBy(_results, (_result) => _result.get('browserId'));
-            for (let key in groups) {
-                if (groups.hasOwnProperty(key)) {
-                    resultsGroups.push({ name: key, results: groups[key] });
+        this.groups = Observable.combineLatest(this.browsers, this.results,
+            (_browsers, _results) => ({ _browsers, _results })).map((c) => {
+                let resultsGroups: IResultsGroup[] = [];
+                let groups = groupBy(c._results, (_result) => _result.get('browserId'));
+                for (let key in groups) {
+                    if (groups.hasOwnProperty(key)) {
+                        let browser = c._browsers.find((_browser) => _browser.get('id') === key);
+                        let name = browser ? browser.get('name') : key;
+                        resultsGroups.push({ name, results: groups[key] });
+                    }
                 }
-            }
-            return resultsGroups;
+                return resultsGroups;
         });
     }
 

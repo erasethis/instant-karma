@@ -2,9 +2,10 @@ import { Component } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 import * as Immutable from 'immutable';
 import { select } from 'ng2-redux';
-import { ISuiteState, IResultState, ResultStatus } from '../../store/data';
+import { IBrowserState, ISuiteState, IResultState, ResultStatus } from '../../store/data';
 
 type ResultsModel = {
+    browsers: Observable<IBrowserState[]>,
     failed: Observable<IResultState[]>,
     all: Observable<IResultState[]>
 };
@@ -17,11 +18,15 @@ type ResultsModel = {
 export class ResultsComponent {
     public model: ResultsModel;
 
+    @select(['data', 'run', 'browsers'])
+    private browsers: Observable<IBrowserState[]>;
+
     @select(['data', 'run', 'suite', 'results'])
     private results: Observable<Immutable.List<IResultState>>;
 
     constructor() {
         this.model = {
+            browsers: this.browsers,
             failed: this.results.map((_results) =>
                 _results.filter((_result) =>
                     _result.get('status') === ResultStatus.Failed).toArray()),

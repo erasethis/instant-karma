@@ -1,10 +1,16 @@
 <div class="ink-results">
     <md-tab-group>
         <md-tab label="Failed Tests">
-            <ink-results-explorer [results]="model.failed"></ink-results-explorer>
+            <ink-results-explorer 
+                [browsers]="model.browsers" 
+                [results]="model.failed">
+            </ink-results-explorer>
         </md-tab>
         <md-tab label="All Tests">
-            <ink-results-explorer [results]="model.all"></ink-results-explorer>
+            <ink-results-explorer 
+                [browsers]="model.browsers" 
+                [results]="model.all">
+            </ink-results-explorer>
         </md-tab>
     </md-tab-group>
     <div class="ink-preview">
