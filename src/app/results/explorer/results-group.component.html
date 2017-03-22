@@ -1,0 +1,13 @@
+<div class="ink-label">{{group.name}}</div>
+<div class="ink-items">
+<div class="ink-item"
+    *ngFor="let result of group.results"
+    routerLinkActive="ink-active-item">
+    <a [routerLink]="[result.get('browserId'), result.get('id')]">
+        <md-icon svgIcon="flask" 
+            [ngClass]="{ 'ink-failed': (result.get('status') === 2), 'ink-pending': result.get('status') === 4, 'ink-success': result.get('status') === 6 }">
+        </md-icon>
+        <div class="ink-item-title">{{result.get('description')}}</div>
+    </a>
+</div>
+</div>

@@ -95,6 +95,7 @@
     "karma-html-detailed-reporter": "^1.1.13",
     "karma-jasmine-matchers": "^3.2.0",
     "karma-phantomjs-launcher": "^1.0.2",
+    "lodash": "^4.17.4",
     "md5-hex": "^2.0.0",
     "ng2-redux": "^5.1.0",
     "ng2-redux-router": "^2.0.0",
