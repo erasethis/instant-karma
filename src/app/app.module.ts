@@ -21,6 +21,7 @@ import { IAppState, rootReducer } from '../store';
 import { AppComponent } from './app.component';
 
 import {
+    OrderByBrowserNamePipe,
     ResultsExplorerComponent,
     ResultPreviewComponent,
     ResultPreviewHeaderComponent,
@@ -43,6 +44,7 @@ declare var window: {
     bootstrap: [AppComponent],
     declarations: [
         AppComponent,
+        OrderByBrowserNamePipe,
         ResultsExplorerComponent,
         ResultPreviewComponent,
         ResultPreviewHeaderComponent,

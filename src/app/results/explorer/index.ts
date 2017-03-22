@@ -1,2 +1,3 @@
+export * from './order-by-browser-name.pipe';
 export * from './results-explorer.component';
 export * from './results-group.component';

@@ -1,5 +1,6 @@
 <div class="ink-explorer" [@flyInOut]="state">
-    <ink-results-group *ngFor="let group of groups | async"
+    <ink-results-group 
+        *ngFor="let group of groups | async | orderByBrowserName"
         [group]="group">
     </ink-results-group>
 </div>
