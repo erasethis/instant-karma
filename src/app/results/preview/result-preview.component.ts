@@ -3,7 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 import { select } from 'ng2-redux';
 import * as Immutable from 'immutable';
-import { IResultState } from '../../../store/data';
+import { IBrowserState, IResultState } from '../../../store/data';
+import { IResultDetails } from './result-details.model';
 
 @Component({
     selector: 'ink-result-preview',
@@ -11,7 +12,10 @@ import { IResultState } from '../../../store/data';
     styleUrls: ['./result-preview.component.scss']
 })
 export class ResultPreviewComponent {
-    public result: Observable<IResultState>;
+    public details: Observable<IResultDetails>;
+
+    @select(['data', 'run', 'browsers'])
+    private browsers: Observable<Immutable.List<IBrowserState>>;
 
     @select(['data', 'run', 'suite', 'results'])
     private results: Observable<Immutable.List<IResultState>>;
@@ -26,13 +30,24 @@ export class ResultPreviewComponent {
         let specId = route.params.map((_params) =>
             _params['specId']).distinctUntilChanged();
 
-        this.result = Observable.combineLatest(this.results, browserId, specId,
-            (_results, _browserId, _specId) => ({ _results, _browserId, _specId })).map((c) => {
+        this.details = Observable.combineLatest(this.browsers, this.results, browserId, specId,
+            (_browsers, _results, _browserId, _specId) =>
+                ({ _browsers, _results, _browserId, _specId })).map((c) => {
 
-            let item = c._results.find(((r) => r.get('id') === c._specId &&
+            let result = c._results.find(((r) => r.get('id') === c._specId &&
                 r.get('browserId') === c._browserId));
 
-            return item ? item.toJS() : undefined;
+            if (result) {
+                let browser = c._browsers.find((_browser) =>
+                    _browser.get('id') === result.get('browserId'));
+
+                return {
+                    browserName: browser ? browser.get('name') : result.get('browserId'),
+                    result: result.toJS()
+                };
+            }
+
+            return undefined;
         }).filter((_result) => _result !== undefined);
     }
 };

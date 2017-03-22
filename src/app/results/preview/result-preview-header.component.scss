@@ -1,16 +1,32 @@
 .ink-preview-header {
-    display: flex;
-    flex-direction: row;
     padding: 20px;
     background: rgba(255, 255, 255, 0.1);
     font-family: "Segoe UI", Frutiger,"Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif;
     font-weight: 300;
+    display: flex;
+    flex-direction: row;
     align-items: center;
+
+    .ink-content {
+        display: flex;
+        flex-direction: column;
+
+        .ink-title {
+            font-size: 16pt;
+            margin-bottom: 12px;
+        }
+
+        .ink-description {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+    }
 }
 
 md-icon {
-    height: 64px;
-    width: 64px;
+    height: 96px;
+    width: 96px;
     margin-right: 20px;
     color: #ffd600;
 
@@ -21,4 +37,10 @@ md-icon {
     &.ink-success {
         color: #00c853;
     }
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
 }

@@ -1,12 +1,12 @@
 <div class="ink-results">
     <md-tab-group>
-        <md-tab label="Failed Tests">
+        <md-tab label="Failed Tests ({{(model.failed | async).length}})">
             <ink-results-explorer 
                 [browsers]="model.browsers" 
                 [results]="model.failed">
             </ink-results-explorer>
         </md-tab>
-        <md-tab label="All Tests">
+        <md-tab label="All Tests ({{(model.all | async).length}})">
             <ink-results-explorer 
                 [browsers]="model.browsers" 
                 [results]="model.all">
