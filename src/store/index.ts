@@ -3,7 +3,7 @@ import { Reducer } from 'redux';
 import * as Immutable from 'immutable';
 import { data, IDataState } from './data';
 import { ui, IUiState } from './ui';
-import { KARMA_ACTIONS } from '../services/karma.actions';
+import { KARMA_ACTIONS, RESULT_ACTIONS } from '../services';
 
 export * from './data';
 
@@ -30,6 +30,7 @@ export const rootReducer = (state = INIT_STATE, action = VOID) => {
         case KARMA_ACTIONS.KARMA_RUN_COMPLETE:
         case KARMA_ACTIONS.KARMA_RUN_START:
         case KARMA_ACTIONS.KARMA_SPEC_COMPLETE:
+        case RESULT_ACTIONS.RESULT_SELECT:
             return state.withMutations((_state) =>
                 _state.set('ui', ui(state.get('ui'), action))
                     .set('data', data(_state.get('data'), action)));

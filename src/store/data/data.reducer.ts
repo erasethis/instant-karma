@@ -2,7 +2,7 @@ import { Action } from 'flux-standard-action';
 import { Reducer } from 'redux';
 import * as Immutable from 'immutable';
 import { run, IRunState, RUN_INIT_STATE } from './run.reducer';
-import { KARMA_ACTIONS } from '../../services/karma.actions';
+import { KARMA_ACTIONS, RESULT_ACTIONS } from '../../services';
 
 export interface IDataState {
     update: (key: string, updater: (value: any) => any) => IDataState;
@@ -27,7 +27,8 @@ export const data: Reducer<IDataState> =
         case KARMA_ACTIONS.KARMA_BROWSER_START:
         case KARMA_ACTIONS.KARMA_SPEC_COMPLETE:
         case KARMA_ACTIONS.KARMA_BROWSER_COMPLETE:
-        case KARMA_ACTIONS.KARMA_RUN_COMPLETE: {
+        case KARMA_ACTIONS.KARMA_RUN_COMPLETE:
+        case RESULT_ACTIONS.RESULT_SELECT: {
             return state.withMutations((_state) => _state
                 .update('run', (_run) => run(_run, action)));
         }

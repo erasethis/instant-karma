@@ -1,14 +1,14 @@
-<div class="ink-preview-header" *ngIf="details">
-    <md-icon svgIcon="flask" [ngClass]="{ 'ink-failed': (details.result.status === 2), 'ink-pending': details.result.status === 4, 'ink-success': details.result.status === 6 }">
+<div class="ink-preview-header" *ngIf="browser && result">
+    <md-icon svgIcon="flask" [ngClass]="{ 'ink-failed': (result.get('status') === 2), 'ink-pending': result.get('status') === 4, 'ink-success': result.get('status') === 6 }">
     </md-icon>
     <div class="ink-content">
-        <div class="ink-title">{{details.browserName}}</div>
+        <div class="ink-title">{{browser.get('name')}}</div>
         <ul class="ink-suite">
             <li class="ink-breadcrumb"
-                *ngFor="let breadcrumb of details.result.suite">
+                *ngFor="let breadcrumb of result.get('suite')">
                 {{breadcrumb}}
             </li>
-            <span>{{details.result.description}}</span>
+            <span>{{result.get('description')}}</span>
         </ul>
     </div>
 </div>

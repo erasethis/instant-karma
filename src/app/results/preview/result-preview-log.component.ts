@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { IResultDetails } from './result-details.model';
+import { IResultState } from '../../../store';
 
 @Component({
     selector: 'ink-result-preview-log',
@@ -8,5 +8,5 @@ import { IResultDetails } from './result-details.model';
 })
 export class ResultPreviewLogComponent {
     @Input()
-    public details: IResultDetails;
+    public result: IResultState;
 };

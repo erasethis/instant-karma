@@ -2,7 +2,7 @@ import { Action } from 'flux-standard-action';
 import { Reducer } from 'redux';
 import * as Immutable from 'immutable';
 import * as md5 from 'md5-hex';
-import { KARMA_ACTIONS } from '../../services';
+import { KARMA_ACTIONS, RESULT_ACTIONS } from '../../services';
 import { result, IResultState, RESULT_INIT_STATE, ResultStatus } from './result.reducer';
 
 export interface ISuiteState {
@@ -25,6 +25,10 @@ export const suite: Reducer<ISuiteState> =
         case KARMA_ACTIONS.KARMA_SPEC_COMPLETE: {
             return state.update('results', (_results) =>
                 _results.push(result(RESULT_INIT_STATE, action)));
+        }
+        case RESULT_ACTIONS.RESULT_SELECT: {
+            return state.update('results', (_results: IResultState[]) =>
+                _results.map((_result) => result(_result, action)));
         }
         default:
             return state;

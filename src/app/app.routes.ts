@@ -2,7 +2,8 @@ import { Routes, RouterModule } from '@angular/router';
 
 import {
     ResultsComponent,
-    ResultPreviewComponent
+    ResultPreviewComponent,
+    ResultsWithoutPreviewComponent
 } from './results';
 
 export const routes: Routes = [
@@ -12,6 +13,10 @@ export const routes: Routes = [
             path: ':browserId/:specId',
             component: ResultPreviewComponent
         },
+        {
+            path: '',
+            component: ResultsWithoutPreviewComponent
+        }
     ]},
     { path: '**', redirectTo: 'results', pathMatch: 'full' },
 ];

@@ -13,7 +13,7 @@
             </ink-results-explorer>
         </md-tab>
     </md-tab-group>
-    <div class="ink-preview">
+    <div class="ink-preview" [ngClass]="{ 'ink-visible': (model.showPreview | async) === true }">
         <router-outlet></router-outlet>
     </div>
 </div>

@@ -9,6 +9,7 @@
     padding: 4px 0;
     font-size: 14pt;
     font-weight: 100;
+    text-decoration: none;
 }
 
 .ink-items {
@@ -19,52 +20,4 @@
     width: 100%;
     flex-grow: 1;
     flex-shrink: 1;
-}
-
-.ink-item {
-    width: 100px;
-    max-width: 100px;
-    height: 80px;
-    padding: 16px 8px;
-    margin: 4px;
-
-    a {
-        font-family: "Segoe UI", Frutiger,"Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif;
-        font-size: 10px;
-        text-align: center;
-        text-decoration: none;
-        color: rgba(255, 255, 255, 0.6);
-
-        md-icon {
-            height: 48px;
-            width: 48px;
-            display: block;
-            margin: 8px auto;
-            color: #ffd600;
-
-            &.ink-failed {
-                color: #ff1744;
-            }
-        
-            &.ink-success {
-                color: #00c853;
-            }
-        }
-
-        .ink-item-title {
-            text-overflow: ellipsis;
-            -webkit-line-clamp: 2;
-            display: -webkit-box;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-    }
-
-    &.ink-active-item {
-        background: rgba(248, 187, 208, 0.3);
-
-        a {
-            color: white;
-        }
-    }
 }

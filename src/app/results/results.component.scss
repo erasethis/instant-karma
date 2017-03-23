@@ -12,6 +12,11 @@ md-tab-group {
 
 .ink-preview {
     width: 100%;
+    display: none;
+    
+    &.ink-visible {
+        display: block;
+    }
 }
 
 .ink-browser {

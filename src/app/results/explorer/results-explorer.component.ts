@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
+import { ResultActions } from '../../../services';
 import { IBrowserState, IResultState } from '../../../store/data';
 import { FlyInOutAnimation } from '../../fly-in-out.animation';
 import { groupBy } from 'lodash';
@@ -21,6 +22,8 @@ export class ResultsExplorerComponent implements OnInit {
     public results: Observable<IResultState[]>;
 
     public groups: Observable<IResultsGroup[]>;
+
+    constructor(private resultActions: ResultActions) { }
 
     public ngOnInit() {
         this.groups = Observable.combineLatest(this.browsers, this.results,

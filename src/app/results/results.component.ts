@@ -8,6 +8,7 @@ type ResultsModel = {
     browsers: Observable<IBrowserState[]>,
     failed: Observable<IResultState[]>,
     all: Observable<IResultState[]>
+    showPreview: Observable<boolean>;
 };
 
 @Component({
@@ -30,7 +31,9 @@ export class ResultsComponent {
             failed: this.results.map((_results) =>
                 _results.filter((_result) =>
                     _result.get('status') === ResultStatus.Failed).toArray()),
-            all: this.results.map((_results) => _results.toArray())
+            all: this.results.map((_results) => _results.toArray()),
+            showPreview: this.results.map((_results) =>
+                _results.some((_result) => _result.get('selected') === true)).do(x => console.log(`showPreview=${x}`))
         };
     }
 

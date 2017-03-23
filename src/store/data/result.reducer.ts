@@ -75,6 +75,14 @@ export const result: Reducer<IResultState> =
                     : []
                 )));
         }
+        case RESULT_ACTIONS.RESULT_SELECT: {
+            if (state.get('browserId') === action.payload.browserId &&
+                state.get('id') === action.payload.specId) {
+                return state.set('selected', true);
+            }
+            return state.get('selected')
+                ? state.set('selected', false) : state;
+        }
         default:
             return state;
     }

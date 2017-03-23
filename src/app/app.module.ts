@@ -23,13 +23,16 @@ import { AppComponent } from './app.component';
 import {
     OrderByBrowserNamePipe,
     ResultsExplorerComponent,
+    ResultItemComponent,
     ResultPreviewComponent,
     ResultPreviewHeaderComponent,
     ResultPreviewLogComponent,
     ResultsComponent,
     ResultsGroupComponent,
+    ResultsWithoutPreviewComponent
 } from './results';
 
+import { ResultActions } from '../services';
 import { IKarmaReporterHostAddress, KarmaReporter } from '../services';
 
 import '../styles/styles.scss';
@@ -46,11 +49,13 @@ declare var window: {
         AppComponent,
         OrderByBrowserNamePipe,
         ResultsExplorerComponent,
+        ResultItemComponent,
         ResultPreviewComponent,
         ResultPreviewHeaderComponent,
         ResultPreviewLogComponent,
         ResultsComponent,
-        ResultsGroupComponent
+        ResultsGroupComponent,
+        ResultsWithoutPreviewComponent
     ],
     imports: [
         BrowserModule,
@@ -65,7 +70,8 @@ declare var window: {
         appRoutingProviders,
         NgReduxRouter,
         { provide: 'IKarmaReporterHostAddress', useValue: { host: 'localhost', port: 3200 } },
-        KarmaReporter
+        KarmaReporter,
+        ResultActions
     ]
 })
 export class AppModule {
