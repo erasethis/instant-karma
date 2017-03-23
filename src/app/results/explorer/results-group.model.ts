@@ -1,6 +1,6 @@
-import { IResultState } from '../../../store/data';
+import { IResultItem } from './result-item.model';
 
-export interface  IResultsGroup {
+export interface IResultsGroup {
     name: string;
-    results: IResultState[];
+    results: IResultItem[];
 };

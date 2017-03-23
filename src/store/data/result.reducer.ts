@@ -3,15 +3,7 @@ import { Reducer } from 'redux';
 import * as Immutable from 'immutable';
 import * as md5 from 'md5-hex';
 import { KARMA_ACTIONS, RESULT_ACTIONS } from '../../services';
-
-export const enum ResultStatus {
-    Disabled = 1,
-    Failed = 2,
-    None = 3,
-    Pending = 4,
-    Skipped = 5,
-    Success = 6
-};
+import { ResultStatus } from '../../common';
 
 export interface IResultState {
     toJS: () => any;

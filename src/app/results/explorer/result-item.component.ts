@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { IResultState } from '../../../store';
+import { IResultItem } from './result-item.model';
 
 @Component({
     selector: 'ink-result-item',
@@ -8,7 +8,7 @@ import { IResultState } from '../../../store';
 })
 export class ResultItemComponent {
     @Input()
-    public result: IResultState;
+    public result: IResultItem;
 
     public click($event) {
         if ($event) {

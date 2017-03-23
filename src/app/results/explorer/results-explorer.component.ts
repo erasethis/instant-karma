@@ -4,6 +4,7 @@ import { ResultActions } from '../../../services';
 import { IBrowserState, IResultState } from '../../../store/data';
 import { FlyInOutAnimation } from '../../fly-in-out.animation';
 import { groupBy } from 'lodash';
+import { IResultItem } from './result-item.model';
 import { IResultsGroup } from './results-group.model';
 
 @Component({
@@ -34,7 +35,8 @@ export class ResultsExplorerComponent implements OnInit {
                     if (groups.hasOwnProperty(key)) {
                         let browser = c._browsers.find((_browser) => _browser.get('id') === key);
                         let name = browser ? browser.get('name') : key;
-                        resultsGroups.push({ name, results: groups[key] });
+                        resultsGroups.push({ name, results: groups[key].map((_result) =>
+                            this.createItem(_result)) });
                     }
                 }
                 return resultsGroups;
@@ -43,5 +45,14 @@ export class ResultsExplorerComponent implements OnInit {
 
     public trackById(index: number, item: any): string {
         return item ? [item.browserId, item.id].join('/') : undefined;
+    }
+
+    private createItem(result: IResultState): IResultItem {
+        return {
+            icon: 'flask',
+            title: result.get('description'),
+            path: [result.get('browserId'), result.get('id')],
+            status: result.get('status')
+        };
     }
 };

@@ -3,7 +3,8 @@ import { Reducer } from 'redux';
 import * as Immutable from 'immutable';
 import * as md5 from 'md5-hex';
 import { KARMA_ACTIONS, RESULT_ACTIONS } from '../../services';
-import { result, IResultState, RESULT_INIT_STATE, ResultStatus } from './result.reducer';
+import { result, IResultState, RESULT_INIT_STATE } from './result.reducer';
+import { ResultStatus } from '../../common';
 
 export interface ISuiteState {
     get(key: 'results'): Immutable.List<IResultState>;

@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 import * as Immutable from 'immutable';
 import { select } from 'ng2-redux';
-import { IBrowserState, ISuiteState, IResultState, ResultStatus } from '../../store/data';
+import { IBrowserState, ISuiteState, IResultState } from '../../store/data';
+import { ResultStatus } from '../../common';
 
 type ResultsModel = {
     browsers: Observable<IBrowserState[]>,
