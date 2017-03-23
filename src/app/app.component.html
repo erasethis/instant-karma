@@ -6,12 +6,21 @@
         End Sidenav.
         <button md-button (click)="end.close()">Close</button>
     </md-sidenav>
+    <md-menu #appMenu="mdMenu">
+        <button md-menu-item> Settings </button>
+        <button md-menu-item> Help </button>
+    </md-menu>
     <div class="ink-viewport">
         <md-toolbar class="ink-appbar" color="primary">
-            <button md-button (click)="start.open()">
+            <button md-button class="ink-menu" (click)="start.open()">
                 <md-icon svgIcon="menu"></md-icon>
             </button>
             <h3 class="ink-app-title">Instant Karma!</h3>
+            <div class="ink-actions">
+                <button md-button class="ink-more" [mdMenuTriggerFor]="appMenu">
+                    <md-icon svgIcon="more_vert"></md-icon>
+                </button>
+            </div>
         </md-toolbar>
         <md-progress-bar [ngClass]="{ 'ink-visible': busy | async }" mode="indeterminate"></md-progress-bar>
         <div class="ink-content">

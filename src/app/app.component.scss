@@ -33,7 +33,7 @@ md-toolbar {
     flex-shrink: 0;
     box-shadow: 0 0 6px 2px rgba(0, 0, 0, 0.4);
 
-    button[md-button] {
+    button[md-button], .ink-actions {
         height: 100%;
         padding: 0;
         min-width: 64px;
@@ -42,6 +42,11 @@ md-toolbar {
     .ink-app-title {
         padding: 16px 0;
         font-family: "Segoe UI", Helvetica, sans-serif;
+        width: 100%;
+    }
+
+    .ink-actions {
+        height: 100%;
     }
 }
 

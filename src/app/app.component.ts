@@ -27,6 +27,8 @@ export class AppComponent implements OnInit {
             sanitizer.bypassSecurityTrustResourceUrl(`${this.iconPath}ic_layers_black_48px.svg`));
         mdIconRegistry.addSvgIcon('colorize',
             sanitizer.bypassSecurityTrustResourceUrl(`${this.iconPath}ic_colorize_black_48px.svg`));
+        mdIconRegistry.addSvgIcon('more_vert',
+            sanitizer.bypassSecurityTrustResourceUrl(`${this.iconPath}ic_more_vert_white_48px.svg`));
         mdIconRegistry.addSvgIcon('flask',
             sanitizer.bypassSecurityTrustResourceUrl(`/assets/svg/icons/flask.svg`));
     }

@@ -1,5 +1,5 @@
 <div class="ink-preview-log" *ngIf="result">
-    <div *ngFor="let message of result.messages">
+    <div *ngFor="let message of result.get('messages')">
         {{message}}
     </div>
 </div>
